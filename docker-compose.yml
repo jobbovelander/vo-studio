@@ -1,0 +1,24 @@
+services:
+  vo-studio:
+    image: ghcr.io/jobbovelander/vo-studio:latest
+    container_name: vo-studio
+    restart: unless-stopped
+    ports:
+      - "5080:5000"
+    volumes:
+      - /volume1/vo_studio:/data
+    environment:
+      - VO_DATA_DIR=/data
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=300
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_INCLUDE_STOPPED=true
+    command: vo-studio
