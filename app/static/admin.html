@@ -6,46 +6,29 @@
 <title>VO Studio – Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#0e0f0e;--s1:#151716;--s2:#1c1e1c;--s3:#222522;--border:#252825;
-  --muted:#363a36;--dim:#637063;--text:#e2e8e2;
-  --green:#a8ff78;--blue:#78d4ff;--orange:#ffb347;--red:#ff5050;--purple:#c084fc;
-  --r:5px;--mono:'DM Mono',monospace;--sans:'Syne',sans-serif;
-}
+:root{--bg:#0e0f0e;--s1:#151716;--s2:#1c1e1c;--s3:#222522;--border:#252825;--muted:#363a36;--dim:#637063;--text:#e2e8e2;--green:#a8ff78;--blue:#78d4ff;--orange:#ffb347;--red:#ff5050;--purple:#c084fc;--r:5px;--mono:"DM Mono",monospace;--sans:"Syne",sans-serif}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px}
-
 #app{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
-
-/* Nav */
 #nav{background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column}
 .nav-logo{padding:16px 16px 12px;border-bottom:1px solid var(--border)}
 .nav-logo .logo{font-size:13px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--green)}
 .nav-logo .logo span{color:var(--dim);font-weight:400}
 .nav-logo .sub{font-size:9px;font-family:var(--mono);color:var(--dim);margin-top:2px}
 .nav-sec{padding:12px 8px 5px;font-size:9px;font-family:var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.nav-item{display:flex;align-items:center;gap:9px;padding:8px 12px;margin:1px 5px;
-  border-radius:var(--r);cursor:pointer;font-size:12px;font-weight:600;
-  color:var(--dim);border:1px solid transparent;transition:all .12s;text-decoration:none}
+.nav-item{display:flex;align-items:center;gap:9px;padding:8px 12px;margin:1px 5px;border-radius:var(--r);cursor:pointer;font-size:12px;font-weight:600;color:var(--dim);border:1px solid transparent;transition:all .12s;text-decoration:none}
 .nav-item:hover{background:var(--s2);color:var(--text)}
 .nav-item.active{background:var(--s2);border-color:var(--border);color:var(--text)}
 .nav-bottom{margin-top:auto;padding:12px;border-top:1px solid var(--border)}
-.nav-back{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);
-  text-decoration:none;padding:5px 8px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
+.nav-back{display:block;font-family:var(--mono);font-size:10px;color:var(--dim);text-decoration:none;padding:5px 8px;border:1px solid var(--border);border-radius:var(--r);text-align:center}
 .nav-back:hover{color:var(--text);border-color:var(--muted)}
-
-/* Content */
 #content{padding:24px 28px;overflow-y:auto}
 .panel{display:none}.panel.active{display:block}
 h1{font-size:19px;font-weight:800;margin-bottom:3px}
 .subtitle{font-size:11px;font-family:var(--mono);color:var(--dim);margin-bottom:20px}
-
-/* Cards */
 .card{background:var(--s1);border:1px solid var(--border);border-radius:8px;padding:18px;margin-bottom:14px}
 .card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .card-title{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
-
-/* Series tree */
 .series-block{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
 .series-head{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;border-bottom:1px solid var(--border)}
 .series-head:hover{background:var(--s3)}
@@ -53,52 +36,32 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
 .series-name{font-size:13px;font-weight:700;flex:1}
 .series-meta{font-family:var(--mono);font-size:10px;color:var(--dim)}
 .series-actions{display:flex;gap:5px}
-
 .episodes-list{padding:8px}
-.episode-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r);
-  margin-bottom:2px;border:1px solid transparent;transition:all .12s;cursor:pointer}
+.episode-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r);margin-bottom:2px;border:1px solid transparent;transition:all .12s;cursor:pointer}
 .episode-row:hover{background:var(--s1);border-color:var(--border)}
-.episode-row.expanded{background:var(--s1);border-color:var(--border)}
 .ep-code{font-family:var(--mono);font-size:11px;font-weight:500;color:var(--blue);min-width:80px}
 .ep-title{font-size:12px;flex:1}
 .ep-status{font-size:9px;font-family:var(--mono);padding:2px 6px;border-radius:3px;font-weight:500}
 .ep-status.done{background:rgba(168,255,120,.15);color:var(--green);border:1px solid rgba(168,255,120,.25)}
 .ep-status.in_progress{background:rgba(255,179,71,.1);color:var(--orange);border:1px solid rgba(255,179,71,.2)}
 .ep-status.pending{background:var(--s2);color:var(--dim);border:1px solid var(--border)}
-.ep-status.archived{background:var(--s2);color:var(--muted);border:1px solid var(--border)}
 .ep-prog{font-family:var(--mono);font-size:10px;color:var(--dim)}
 .ep-actions{display:flex;gap:4px}
-
 .scripts-sub{padding:6px 10px 10px;border-top:1px solid var(--border);background:var(--bg);display:none}
 .scripts-sub.show{display:block}
-.script-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--r);
-  margin-bottom:2px;border:1px solid var(--border);background:var(--s2)}
+.script-row{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:var(--r);margin-bottom:2px;border:1px solid var(--border);background:var(--s2)}
 .sc-name{font-size:12px;font-weight:600;flex:1}
 .sc-prog{font-family:var(--mono);font-size:10px;color:var(--dim)}
 .sc-actions{display:flex;gap:4px}
-
-/* Inzet verplaatser */
 .move-panel{background:var(--bg);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-top:8px}
 .move-title{font-size:10px;font-family:var(--mono);color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-.take-move-row{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--r);
-  margin-bottom:3px;background:var(--s1);border:1px solid var(--border)}
+.take-move-row{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:var(--r);margin-bottom:3px;background:var(--s1);border:1px solid var(--border)}
 .tmr-idx{font-family:var(--mono);font-size:10px;color:var(--blue);min-width:50px}
 .tmr-tc{font-family:var(--mono);font-size:10px;color:var(--dim);min-width:90px}
 .tmr-txt{font-size:11px;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tmr-status{font-size:9px;color:var(--green)}
 .tmr-move{font-size:9px}
-
-/* Table */
-.tbl{width:100%;border-collapse:collapse}
-.tbl th{font-size:9px;font-family:var(--mono);font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-align:left;padding:0 8px 7px}
-.tbl td{padding:7px 8px;font-size:12px;border-top:1px solid var(--border)}
-.tbl tr:hover td{background:var(--s2)}
-.mono{font-family:var(--mono);color:var(--blue);font-size:11px}
-.dim{color:var(--dim);font-size:11px;font-family:var(--mono)}
-
-/* Buttons */
-.btn{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  padding:6px 14px;border-radius:var(--r);border:1px solid transparent;cursor:pointer;transition:all .12s;outline:none}
+.btn{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 14px;border-radius:var(--r);border:1px solid transparent;cursor:pointer;transition:all .12s;outline:none}
 .btn-green{background:var(--green);color:#0b0c0b;border-color:var(--green)}
 .btn-green:hover{filter:brightness(1.08)}
 .btn-ghost{background:transparent;color:var(--dim);border-color:var(--border)}
@@ -109,46 +72,29 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
 .btn-orange:hover{background:rgba(255,179,71,.1)}
 .btn-sm{padding:3px 8px;font-size:9px}
 .btn:disabled{opacity:.3;cursor:not-allowed}
-
-/* Form */
 .field{margin-bottom:12px}
 .field label{display:block;font-size:10px;font-family:var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin-bottom:4px}
 .field input,.field select,.field textarea{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:12px;padding:7px 9px;border-radius:var(--r);outline:none;transition:border-color .12s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--green)}
 .field textarea{resize:vertical;min-height:300px;line-height:1.7}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-/* Drop zone */
-.drop-zone{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;
-  cursor:pointer;transition:all .2s;background:var(--s2)}
+.drop-zone{border:2px dashed var(--border);border-radius:8px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;background:var(--s2)}
 .drop-zone:hover,.drop-zone.drag{border-color:var(--green);background:rgba(168,255,120,.04)}
 .drop-zone .icon{font-size:26px;opacity:.35;margin-bottom:6px}
 .drop-zone p{font-family:var(--mono);font-size:11px;color:var(--dim)}
-
-/* Modal */
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:50;display:none;align-items:center;justify-content:center}
 .modal-overlay.show{display:flex}
 .modal{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:22px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto}
 .modal h2{font-size:15px;font-weight:700;margin-bottom:14px}
 .modal-btns{display:flex;gap:7px;justify-content:flex-end;margin-top:18px}
-
-/* File grid */
 .file-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
 .file-card{background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px;display:flex;flex-direction:column;gap:6px}
 .fc-name{font-size:11px;font-weight:600;word-break:break-all;color:var(--text)}
 .fc-meta{font-family:var(--mono);font-size:9px;color:var(--dim)}
 .fc-actions{display:flex;gap:5px;margin-top:auto}
-
-/* Archive */
-.archive-badge{font-size:9px;font-family:var(--mono);padding:2px 6px;border-radius:3px;
-  background:var(--s2);color:var(--muted);border:1px solid var(--border)}
-
-/* Toast */
-#toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--border);
-  color:var(--text);font-family:var(--mono);font-size:11px;padding:7px 13px;
-  border-radius:var(--r);opacity:0;transition:opacity .2s;z-index:100;pointer-events:none}
+.archive-badge{font-size:9px;font-family:var(--mono);padding:2px 6px;border-radius:3px;background:var(--s2);color:var(--muted);border:1px solid var(--border)}
+#toast{position:fixed;bottom:18px;right:18px;background:var(--s2);border:1px solid var(--border);color:var(--text);font-family:var(--mono);font-size:11px;padding:7px 13px;border-radius:var(--r);opacity:0;transition:opacity .2s;z-index:100;pointer-events:none}
 #toast.show{opacity:1}
-
 ::-webkit-scrollbar{width:3px;height:3px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
@@ -162,113 +108,100 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     <div class="sub">Admin Panel</div>
   </div>
   <div class="nav-sec">Productie</div>
-  <a class="nav-item active" onclick="showPanel('series',this)"><span>📺</span>Series & Afleveringen</a>
-  <a class="nav-item" onclick="showPanel('scripts',this)"><span>📝</span>Scripts</a>
-  <a class="nav-item" onclick="showPanel('move',this)"><span>↔</span>Inzetten verplaatsen</a>
+  <a class="nav-item active" id="nav-series"><span>📺</span>Series</a>
+  <a class="nav-item" id="nav-scripts"><span>📝</span>Scripts</a>
+  <a class="nav-item" id="nav-move"><span>↔</span>Inzetten verplaatsen</a>
   <div class="nav-sec">Bestanden</div>
-  <a class="nav-item" onclick="showPanel('videos',this)"><span>🎬</span>Video's</a>
-  <a class="nav-item" onclick="showPanel('archive',this)"><span>📦</span>Archief</a>
-  <div class="nav-bottom"><a href="/" class="nav-back">← Naar studio</a></div>
+  <a class="nav-item" id="nav-videos"><span>🎬</span>Videos</a>
+  <a class="nav-item" id="nav-archive"><span>📦</span>Archief</a>
+  <div class="nav-bottom"><a href="/" class="nav-back">Naar studio</a></div>
 </nav>
-
 <div id="content">
 
-<!-- Series & Afleveringen -->
 <div class="panel active" id="panel-series">
-  <h1>Series & Afleveringen</h1>
-  <p class="subtitle">Beheer de productiestructuur. Klik op een aflevering voor scripts en voortgang.</p>
+  <h1>Series en Afleveringen</h1>
+  <p class="subtitle">Beheer series, afleveringen en scripts.</p>
   <div class="card">
     <div class="card-head">
       <span class="card-title">Overzicht</span>
-      <button class="btn btn-green" onclick="openNewSeries()">+ Nieuwe serie</button>
+      <button class="btn btn-green" id="btn-new-series">+ Nieuwe serie</button>
     </div>
-    <div id="series-tree"><div class="dim" style="padding:12px">Laden…</div></div>
+    <div id="series-tree"><div style="padding:12px;font-family:var(--mono);font-size:11px;color:var(--dim)">Laden...</div></div>
   </div>
 </div>
 
-<!-- Scripts beheer -->
 <div class="panel" id="panel-scripts">
   <h1>Scripts</h1>
-  <p class="subtitle">Upload scriptbestanden of bewerk ze direct.</p>
+  <p class="subtitle">Upload en bewerk scriptbestanden.</p>
   <div class="card">
     <div class="card-head"><span class="card-title">Upload</span></div>
-    <div id="drop-zone-script" class="drop-zone" onclick="document.getElementById('script-file-inp').click()">
+    <div class="drop-zone" id="drop-zone-script">
       <div class="icon">📄</div><p>Klik of sleep .txt bestanden hier</p>
     </div>
-    <input type="file" id="script-file-inp" accept=".txt,.md" multiple style="display:none" onchange="uploadScripts(this.files)">
+    <input type="file" id="script-file-inp" accept=".txt,.md" multiple style="display:none">
   </div>
   <div class="card">
     <div class="card-head">
       <span class="card-title">Bewerken</span>
       <div style="display:flex;gap:7px;align-items:center">
-        <select id="edit-script-sel" style="font-family:var(--mono);font-size:11px;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:4px 7px;border-radius:var(--r);outline:none" onchange="loadScriptForEdit(this.value)">
-          <option value="">— kies scriptbestand —</option>
+        <select id="edit-script-sel" style="font-family:var(--mono);font-size:11px;background:var(--s2);border:1px solid var(--border);color:var(--text);padding:4px 7px;border-radius:var(--r);outline:none">
+          <option value="">kies scriptbestand</option>
         </select>
-        <button class="btn btn-green btn-sm" onclick="saveScriptEdit()">Opslaan</button>
+        <button class="btn btn-green btn-sm" id="btn-save-script">Opslaan</button>
       </div>
     </div>
-    <textarea id="script-editor" placeholder="Kies een scriptbestand…"></textarea>
-    <div style="margin-top:6px;font-family:var(--mono);font-size:9px;color:var(--muted)">
-      Regels met # zijn commentaar · Zonder OUT: volgende IN − 0.5s · [annotaties] worden herkend
-    </div>
+    <textarea id="script-editor" placeholder="Kies een scriptbestand..."></textarea>
   </div>
   <div class="card">
     <div class="card-head"><span class="card-title">Alle scriptbestanden</span></div>
-    <div class="file-grid" id="script-file-grid"><div class="dim" style="font-family:var(--mono);font-size:11px">Laden…</div></div>
+    <div class="file-grid" id="script-file-grid"><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">Laden...</div></div>
   </div>
 </div>
 
-<!-- Inzetten verplaatsen -->
 <div class="panel" id="panel-move">
   <h1>Inzetten verplaatsen</h1>
-  <p class="subtitle">Verplaats een inzet van het ene script naar het andere. Het scriptbestand wordt automatisch aangepast.</p>
+  <p class="subtitle">Verplaats een inzet naar een ander script.</p>
   <div class="card">
     <div class="card-head"><span class="card-title">Selecteer bron</span></div>
     <div class="form-row">
       <div class="field"><label>Aflevering</label>
-        <select id="move-episode" onchange="loadMoveEpisode()">
-          <option value="">— kies aflevering —</option>
-        </select>
+        <select id="move-episode"></select>
       </div>
       <div class="field"><label>Script (bron)</label>
-        <select id="move-src-script" onchange="loadMoveTakes()">
-          <option value="">— kies script —</option>
-        </select>
+        <select id="move-src-script"></select>
       </div>
     </div>
     <div id="move-takes-list"></div>
   </div>
 </div>
 
-<!-- Video's -->
 <div class="panel" id="panel-videos">
-  <h1>Video's</h1>
-  <p class="subtitle">Upload videobestanden voor gebruik in projecten.</p>
+  <h1>Videos</h1>
+  <p class="subtitle">Upload videobestanden.</p>
   <div class="card">
     <div class="card-head"><span class="card-title">Upload</span></div>
-    <div id="drop-zone-video" class="drop-zone" onclick="document.getElementById('video-file-inp').click()">
+    <div class="drop-zone" id="drop-zone-video">
       <div class="icon">🎬</div><p>Klik of sleep .mp4 / .mov bestanden hier</p>
     </div>
-    <input type="file" id="video-file-inp" accept="video/*" multiple style="display:none" onchange="uploadVideos(this.files)">
+    <input type="file" id="video-file-inp" accept="video/*" multiple style="display:none">
   </div>
   <div class="card">
-    <div class="card-head"><span class="card-title">Alle video's</span></div>
-    <div class="file-grid" id="video-file-grid"><div class="dim" style="font-family:var(--mono);font-size:11px">Laden…</div></div>
+    <div class="card-head"><span class="card-title">Alle videos</span></div>
+    <div class="file-grid" id="video-file-grid"><div style="font-family:var(--mono);font-size:11px;color:var(--dim)">Laden...</div></div>
   </div>
 </div>
 
-<!-- Archief -->
 <div class="panel" id="panel-archive">
   <h1>Archief</h1>
-  <p class="subtitle">Gearchiveerde afleveringen. Terughalen maakt ze weer zichtbaar in de studio.</p>
+  <p class="subtitle">Gearchiveerde afleveringen.</p>
   <div class="card">
     <div class="card-head"><span class="card-title">Gearchiveerd</span></div>
-    <div id="archive-list"><div class="dim" style="font-family:var(--mono);font-size:11px;padding:12px">Laden…</div></div>
+    <div id="archive-list"><div style="font-family:var(--mono);font-size:11px;color:var(--dim);padding:12px">Laden...</div></div>
   </div>
 </div>
 
-</div><!-- /content -->
-</div><!-- /app -->
+</div>
+</div>
 
 <!-- Modals -->
 <div class="modal-overlay" id="modal-series">
@@ -277,8 +210,8 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     <div class="field"><label>Naam</label><input id="ms-name" placeholder="Boer Zoekt Vrouw"></div>
     <div class="field"><label>Jaar</label><input id="ms-year" type="number" placeholder="2024"></div>
     <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal('modal-series')">Annuleren</button>
-      <button class="btn btn-green" onclick="saveSeries()">Opslaan</button>
+      <button class="btn btn-ghost" id="ms-cancel">Annuleren</button>
+      <button class="btn btn-green" id="ms-save">Opslaan</button>
     </div>
   </div>
 </div>
@@ -291,14 +224,19 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     <div class="form-row">
       <div class="field"><label>Code</label><input id="me-code" placeholder="S14E02"></div>
       <div class="field"><label>Framerate</label>
-        <select id="me-fps"><option value="24">24</option><option value="25" selected>25</option><option value="29">29.97</option><option value="30">30</option></select></div>
+        <select id="me-fps">
+          <option value="24">24</option>
+          <option value="25" selected>25</option>
+          <option value="29">29.97</option>
+          <option value="30">30</option>
+        </select>
+      </div>
     </div>
     <div class="field"><label>Titel (optioneel)</label><input id="me-title-inp" placeholder="Aflevering 2"></div>
-    <div class="field"><label>Video bestand</label>
-      <select id="me-video"><option value="">— geen —</option></select></div>
+    <div class="field"><label>Video bestand</label><select id="me-video"><option value="">geen</option></select></div>
     <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal('modal-episode')">Annuleren</button>
-      <button class="btn btn-green" onclick="saveEpisode()">Opslaan</button>
+      <button class="btn btn-ghost" id="me-cancel">Annuleren</button>
+      <button class="btn btn-green" id="me-save">Opslaan</button>
     </div>
   </div>
 </div>
@@ -309,11 +247,10 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     <input type="hidden" id="msc-episode-id">
     <input type="hidden" id="msc-script-id">
     <div class="field"><label>Naam</label><input id="msc-name" placeholder="Man / Vrouw / Narratie"></div>
-    <div class="field"><label>Scriptbestand</label>
-      <select id="msc-file"><option value="">— kies bestand —</option></select></div>
+    <div class="field"><label>Scriptbestand</label><select id="msc-file"><option value="">kies bestand</option></select></div>
     <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal('modal-script')">Annuleren</button>
-      <button class="btn btn-green" onclick="saveScript()">Opslaan</button>
+      <button class="btn btn-ghost" id="msc-cancel">Annuleren</button>
+      <button class="btn btn-green" id="msc-save">Opslaan</button>
     </div>
   </div>
 </div>
@@ -325,7 +262,7 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     <div id="mmt-take-info" style="font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:14px;padding:10px;background:var(--s1);border-radius:var(--r);border:1px solid var(--border)"></div>
     <div class="field"><label>Verplaats naar script</label>
       <select id="mmt-target-script">
-        <option value="">— kies doelscript —</option>
+        <option value="">kies doelscript</option>
         <option value="__new__">+ Nieuw script aanmaken</option>
       </select>
     </div>
@@ -333,18 +270,15 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
       <div class="field"><label>Naam nieuw script</label><input id="mmt-new-name" placeholder="bijv. Vrouw"></div>
     </div>
     <p style="font-size:11px;font-family:var(--mono);color:var(--orange);margin-top:10px">
-      ⚠ Het scriptbestand wordt direct aangepast. De eventuele opname wordt gemarkeerd als vervangen.
+      Het scriptbestand wordt direct aangepast.
     </p>
     <div class="modal-btns">
-      <button class="btn btn-ghost" onclick="closeModal('modal-move-take')">Annuleren</button>
-      <button class="btn btn-green" onclick="doMoveTake()">Verplaatsen</button>
+      <button class="btn btn-ghost" id="mmt-cancel">Annuleren</button>
+      <button class="btn btn-green" id="mmt-save">Verplaatsen</button>
     </div>
   </div>
 </div>
 
-<div id="toast"></div>
-
-<!-- Finalize modal -->
 <div class="modal-overlay" id="modal-finalize">
   <div class="modal" style="width:520px">
     <h2>Aflevering afronden</h2>
@@ -354,463 +288,711 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
       <div id="mf-scripts-status"></div>
     </div>
     <div class="modal-btns" id="mf-btns">
-      <button class="btn btn-ghost" onclick="closeModal('modal-finalize')">Annuleren</button>
-      <button class="btn btn-green" id="mf-confirm-btn" onclick="doFinalize()">Afronden & exporteren</button>
+      <button class="btn btn-ghost" id="mf-cancel">Annuleren</button>
+      <button class="btn btn-green" id="mf-confirm">Afronden en exporteren</button>
     </div>
   </div>
 </div>
 
+<div id="toast"></div>
+
 <script>
-const $=id=>document.getElementById(id);
-let editingSid=null, editingEid=null, editingScId=null;
-let allVideos=[], allScriptFiles=[], allEpisodes=[];
+"use strict";
 
-// ── Nav ───────────────────────────────────────────────────────────
-function showPanel(id, el) {
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-  $('panel-'+id).classList.add('active');
-  el?.classList.add('active');
-  if(id==='series')  loadSeriesTree();
-  if(id==='scripts') loadScriptsPanel();
-  if(id==='videos')  loadVideosPanel();
-  if(id==='archive') loadArchive();
-  if(id==='move')    loadMovePanel();
+var editingSid = null;
+var editingEid = null;
+var editingScId = null;
+var finalizeEid = null;
+var allEpisodesList = [];
+
+function ge(id) { return document.getElementById(id); }
+
+function showPanel(name) {
+  document.querySelectorAll(".panel").forEach(function(p) { p.classList.remove("active"); });
+  document.querySelectorAll(".nav-item").forEach(function(n) { n.classList.remove("active"); });
+  ge("panel-" + name).classList.add("active");
+  ge("nav-" + name).classList.add("active");
+  if (name === "series")  loadSeriesTree();
+  if (name === "scripts") loadScriptsPanel();
+  if (name === "videos")  loadVideosPanel();
+  if (name === "archive") loadArchive();
+  if (name === "move")    loadMovePanel();
 }
 
-// ── Init ──────────────────────────────────────────────────────────
-async function init() {
-  await Promise.all([loadVideoFiles(), loadScriptFiles()]);
-  loadSeriesTree();
-  setupDrop('drop-zone-video','video-file-inp',uploadVideos);
-  setupDrop('drop-zone-script','script-file-inp',uploadScripts);
-}
+function openModal(id) { ge(id).classList.add("show"); }
+function closeModal(id) { ge(id).classList.remove("show"); }
 
-// ── Series tree ───────────────────────────────────────────────────
-async function loadSeriesTree() {
-  const series = await fetch('/api/series').then(r=>r.json());
-  const tree = $('series-tree');
-  if (!series.length) {
-    tree.innerHTML='<div style="padding:14px;font-family:var(--mono);font-size:11px;color:var(--dim);text-align:center">Nog geen series — maak er een aan via de knop hierboven</div>';
-    return;
-  }
-  tree.innerHTML = '';
-  for (const s of series) {
-    const eps = await fetch(`/api/series/${s.id}/episodes`).then(r=>r.json());
-    const block = document.createElement('div');
-    block.className='series-block';
-    block.innerHTML=`
-      <div class="series-head" onclick="toggleSeries(${s.id})">
-        <span class="series-toggle" id="stoggle-${s.id}">▶</span>
-        <span class="series-name">${s.name}${s.year?' <span style="color:var(--dim);font-weight:400;font-size:11px">('+s.year+')</span>':''}</span>
-        <span class="series-meta">${eps.length} afleveringen · ${eps.filter(e=>e.status==='done').length} voltooid</span>
-        <div class="series-actions" onclick="event.stopPropagation()">
-          <button class="btn btn-ghost btn-sm" onclick="openNewEpisode(${s.id})">+ Aflevering</button>
-          <button class="btn btn-ghost btn-sm" onclick="openEditSeries(${s.id},'${s.name}',${s.year||''})">Bewerken</button>
-          <button class="btn btn-red btn-sm" onclick="deleteSeries(${s.id},'${s.name}')">✕</button>
-        </div>
-      </div>
-      <div class="episodes-list" id="seps-${s.id}" style="display:none">
-        ${eps.length ? eps.map(e=>renderEpisodeRow(e,s.id)).join('') :
-          '<div style="padding:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">Geen afleveringen</div>'}
-      </div>`;
-    tree.appendChild(block);
-  }
-}
-
-function renderEpisodeRow(e, sid) {
-  const prog = e.total_takes ? `${e.done_takes}/${e.total_takes}` : '—';
-  return `<div>
-    <div class="episode-row" onclick="toggleEpisode(${e.id})">
-      <span class="ep-code">${e.code}</span>
-      <span class="ep-title">${e.title||'—'}</span>
-      <span class="ep-prog">${prog}</span>
-      <span class="ep-status ${e.status}">${statusLabel(e.status)}</span>
-      <div class="ep-actions" onclick="event.stopPropagation()">
-        <button class="btn btn-ghost btn-sm" onclick="openEditEpisode(${e.id},${sid})">✎</button>
-        <button class="btn btn-orange btn-sm" onclick="finalizeEpisode(${e.id})" title="Afronden">✓</button>
-        <button class="btn btn-ghost btn-sm" onclick="archiveEpisode(${e.id})" title="Archiveren">📦</button>
-        <button class="btn btn-red btn-sm" onclick="deleteEpisode(${e.id},'${e.code}')">✕</button>
-      </div>
-    </div>
-    <div class="scripts-sub" id="esub-${e.id}">
-      <div style="display:flex;justify-content:flex-end;margin-bottom:6px">
-        <button class="btn btn-ghost btn-sm" onclick="openNewScript(${e.id})">+ Script</button>
-      </div>
-      <div id="escripts-${e.id}">Laden…</div>
-    </div>
-  </div>`;
+function toast(msg) {
+  var el = ge("toast");
+  el.textContent = msg;
+  el.classList.add("show");
+  setTimeout(function() { el.classList.remove("show"); }, 2500);
 }
 
 function statusLabel(s) {
-  return {done:'✓ Voltooid',in_progress:'⏳ Bezig',pending:'— Niet begonnen',archived:'📦 Archief'}[s]||s;
+  if (s === "done") return "Voltooid";
+  if (s === "in_progress") return "Bezig";
+  if (s === "archived") return "Archief";
+  return "Niet begonnen";
 }
 
-function toggleSeries(sid) {
-  const el=$(`seps-${sid}`), tog=$(`stoggle-${sid}`);
-  const open=el.style.display==='none';
-  el.style.display=open?'block':'none';
-  tog.textContent=open?'▼':'▶';
+function formatSize(b) {
+  if (b < 1024) return b + "B";
+  if (b < 1024*1024) return Math.round(b/1024) + "KB";
+  return (b/1024/1024).toFixed(1) + "MB";
 }
 
-async function toggleEpisode(eid) {
-  const sub=$(`esub-${eid}`);
-  const open=!sub.classList.contains('show');
-  sub.classList.toggle('show',open);
-  if (open) await loadEpisodeScripts(eid);
+// Nav clicks
+ge("nav-series").onclick  = function() { showPanel("series"); };
+ge("nav-scripts").onclick = function() { showPanel("scripts"); };
+ge("nav-move").onclick    = function() { showPanel("move"); };
+ge("nav-videos").onclick  = function() { showPanel("videos"); };
+ge("nav-archive").onclick = function() { showPanel("archive"); };
+
+// Modal cancel buttons
+ge("ms-cancel").onclick   = function() { closeModal("modal-series"); };
+ge("me-cancel").onclick   = function() { closeModal("modal-episode"); };
+ge("msc-cancel").onclick  = function() { closeModal("modal-script"); };
+ge("mmt-cancel").onclick  = function() { closeModal("modal-move-take"); };
+ge("mf-cancel").onclick   = function() { closeModal("modal-finalize"); };
+
+// Modal save buttons
+ge("ms-save").onclick  = saveSeries;
+ge("me-save").onclick  = saveEpisode;
+ge("msc-save").onclick = saveScript;
+ge("mmt-save").onclick = doMoveTake;
+ge("mf-confirm").onclick = doFinalize;
+
+// New series button
+ge("btn-new-series").onclick = openNewSeries;
+
+// Script editor
+ge("btn-save-script").onclick = saveScriptEdit;
+ge("edit-script-sel").onchange = function() { loadScriptForEdit(this.value); };
+
+// File inputs
+ge("drop-zone-script").onclick = function() { ge("script-file-inp").click(); };
+ge("drop-zone-video").onclick  = function() { ge("video-file-inp").click(); };
+ge("script-file-inp").onchange = function() { uploadScripts(this.files); };
+ge("video-file-inp").onchange  = function() { uploadVideos(this.files); };
+
+// Move panel
+ge("move-episode").onchange    = loadMoveEpisode;
+ge("move-src-script").onchange = loadMoveTakes;
+ge("mmt-target-script").onchange = function() {
+  ge("mmt-new-script-field").style.display = this.value === "__new__" ? "block" : "none";
+};
+
+// Drop zones
+setupDrop("drop-zone-script", uploadScripts);
+setupDrop("drop-zone-video",  uploadVideos);
+
+function setupDrop(zoneId, handler) {
+  var zone = ge(zoneId);
+  if (!zone) return;
+  zone.ondragover = function(e) { e.preventDefault(); zone.classList.add("drag"); };
+  zone.ondragleave = function() { zone.classList.remove("drag"); };
+  zone.ondrop = function(e) {
+    e.preventDefault();
+    zone.classList.remove("drag");
+    handler(e.dataTransfer.files);
+  };
+}
+
+// ── Series ────────────────────────────────────────────────────────
+
+async function loadSeriesTree() {
+  var series = await fetch("/api/series").then(function(r) { return r.json(); });
+  var tree = ge("series-tree");
+  if (!series.length) {
+    tree.innerHTML = "<div style='padding:14px;font-family:var(--mono);font-size:11px;color:var(--dim)'>Nog geen series</div>";
+    return;
+  }
+  tree.innerHTML = "";
+  for (var si = 0; si < series.length; si++) {
+    var s = series[si];
+    var eps = await fetch("/api/series/" + s.id + "/episodes").then(function(r) { return r.json(); });
+    var doneCount = eps.filter(function(e) { return e.status === "done"; }).length;
+    var block = document.createElement("div");
+    block.className = "series-block";
+    block.setAttribute("data-sid", s.id);
+    var headHtml = "<div class='series-head' data-sid='" + s.id + "'>";
+    headHtml += "<span class='series-toggle' id='stog-" + s.id + "'>▶</span>";
+    headHtml += "<span class='series-name'>" + s.name + (s.year ? " <span style='color:var(--dim);font-weight:400;font-size:11px'>(" + s.year + ")</span>" : "") + "</span>";
+    headHtml += "<span class='series-meta'>" + eps.length + " afleveringen</span>";
+    headHtml += "<div class='series-actions'>";
+    headHtml += "<button class='btn btn-ghost btn-sm' data-action='new-ep' data-sid='" + s.id + "'>+ Aflevering</button>";
+    headHtml += "<button class='btn btn-ghost btn-sm' data-action='edit-series' data-sid='" + s.id + "' data-name='" + s.name.replace(/'/g, "") + "' data-year='" + (s.year || "") + "'>Bewerken</button>";
+    headHtml += "<button class='btn btn-red btn-sm' data-action='del-series' data-sid='" + s.id + "' data-name='" + s.name.replace(/'/g, "") + "'>X</button>";
+    headHtml += "</div></div>";
+    var epsHtml = "<div class='episodes-list' id='seps-" + s.id + "' style='display:none'>";
+    if (!eps.length) {
+      epsHtml += "<div style='padding:10px;font-family:var(--mono);font-size:11px;color:var(--muted)'>Geen afleveringen</div>";
+    } else {
+      for (var ei = 0; ei < eps.length; ei++) {
+        var e = eps[ei];
+        var prog = e.total_takes ? (e.done_takes + "/" + e.total_takes) : "-";
+        epsHtml += "<div class='episode-row' data-eid='" + e.id + "'>";
+        epsHtml += "<span class='ep-code'>" + e.code + "</span>";
+        epsHtml += "<span class='ep-title'>" + (e.title || "-") + "</span>";
+        epsHtml += "<span class='ep-prog'>" + prog + "</span>";
+        epsHtml += "<span class='ep-status " + e.status + "'>" + statusLabel(e.status) + "</span>";
+        epsHtml += "<div class='ep-actions'>";
+        epsHtml += "<button class='btn btn-ghost btn-sm' data-action='edit-ep' data-eid='" + e.id + "' data-sid='" + s.id + "'>Bewerk</button>";
+        epsHtml += "<button class='btn btn-orange btn-sm' data-action='finalize-ep' data-eid='" + e.id + "'>Afronden</button>";
+        epsHtml += "<button class='btn btn-ghost btn-sm' data-action='archive-ep' data-eid='" + e.id + "'>Archief</button>";
+        epsHtml += "<button class='btn btn-red btn-sm' data-action='del-ep' data-eid='" + e.id + "' data-code='" + e.code + "'>X</button>";
+        epsHtml += "</div></div>";
+        epsHtml += "<div class='scripts-sub' id='esub-" + e.id + "'>";
+        epsHtml += "<div style='display:flex;justify-content:flex-end;margin-bottom:6px'><button class='btn btn-ghost btn-sm' data-action='new-script' data-eid='" + e.id + "'>+ Script</button></div>";
+        epsHtml += "<div id='escripts-" + e.id + "'></div></div>";
+      }
+    }
+    epsHtml += "</div>";
+    block.innerHTML = headHtml + epsHtml;
+    tree.appendChild(block);
+  }
+
+  // Event delegation voor klikken
+  tree.onclick = function(ev) {
+    var btn = ev.target.closest("[data-action]");
+    var head = ev.target.closest(".series-head");
+    var eprow = ev.target.closest(".episode-row");
+
+    if (btn) {
+      ev.stopPropagation();
+      var action = btn.dataset.action;
+      if (action === "new-ep")       openNewEpisode(+btn.dataset.sid);
+      if (action === "edit-series")  openEditSeries(+btn.dataset.sid, btn.dataset.name, btn.dataset.year);
+      if (action === "del-series")   deleteSeries(+btn.dataset.sid, btn.dataset.name);
+      if (action === "edit-ep")      openEditEpisode(+btn.dataset.eid, +btn.dataset.sid);
+      if (action === "finalize-ep")  openFinalize(+btn.dataset.eid);
+      if (action === "archive-ep")   archiveEpisode(+btn.dataset.eid);
+      if (action === "del-ep")       deleteEpisode(+btn.dataset.eid, btn.dataset.code);
+      if (action === "new-script")   openNewScript(+btn.dataset.eid);
+      return;
+    }
+    if (head) {
+      var sid = +head.dataset.sid;
+      var epsEl = ge("seps-" + sid);
+      var tog = ge("stog-" + sid);
+      var open = epsEl.style.display === "none";
+      epsEl.style.display = open ? "block" : "none";
+      tog.textContent = open ? "▼" : "▶";
+      return;
+    }
+    if (eprow && !ev.target.closest(".ep-actions")) {
+      var eid = +eprow.dataset.eid;
+      var sub = ge("esub-" + eid);
+      var isOpen = sub.classList.contains("show");
+      sub.classList.toggle("show", !isOpen);
+      if (!isOpen) loadEpisodeScripts(eid);
+    }
+  };
 }
 
 async function loadEpisodeScripts(eid) {
-  const scripts=await fetch(`/api/episodes/${eid}/scripts`).then(r=>r.json());
-  const el=$(`escripts-${eid}`);
-  if (!scripts.length) {el.innerHTML='<div style="font-family:var(--mono);font-size:10px;color:var(--muted)">Geen scripts gekoppeld</div>';return;}
-  el.innerHTML=scripts.map(s=>`
-    <div class="script-row">
-      <span class="sc-name">${s.name}</span>
-      <span class="sc-prog">${s.done_takes||0}/${s.total_takes||0} inzetten</span>
-      <span class="ep-status ${s.status}" style="font-size:9px">${statusLabel(s.status)}</span>
-      <div class="sc-actions">
-        <button class="btn btn-ghost btn-sm" onclick="openEditScript(${s.id},${eid},'${s.name}','${s.filename}')">✎</button>
-        <button class="btn btn-red btn-sm" onclick="deleteScript(${s.id})">✕</button>
-      </div>
-    </div>`).join('');
+  var scripts = await fetch("/api/episodes/" + eid + "/scripts").then(function(r) { return r.json(); });
+  var el = ge("escripts-" + eid);
+  if (!scripts.length) {
+    el.innerHTML = "<div style='font-family:var(--mono);font-size:10px;color:var(--muted)'>Geen scripts</div>";
+    return;
+  }
+  var html = "";
+  scripts.forEach(function(s) {
+    html += "<div class='script-row'>";
+    html += "<span class='sc-name'>" + s.name + "</span>";
+    html += "<span class='sc-prog'>" + (s.done_takes || 0) + "/" + (s.total_takes || 0) + "</span>";
+    html += "<span class='ep-status " + s.status + "' style='font-size:9px'>" + statusLabel(s.status) + "</span>";
+    html += "<div class='sc-actions'>";
+    html += "<button class='btn btn-ghost btn-sm' data-action='edit-sc' data-scid='" + s.id + "' data-eid='" + eid + "' data-name='" + s.name.replace(/'/g,"") + "' data-file='" + s.filename + "'>Bewerk</button>";
+    html += "<button class='btn btn-red btn-sm' data-action='del-sc' data-scid='" + s.id + "'>X</button>";
+    html += "</div></div>";
+  });
+  el.innerHTML = html;
+  el.onclick = function(ev) {
+    var btn = ev.target.closest("[data-action]");
+    if (!btn) return;
+    if (btn.dataset.action === "edit-sc") openEditScript(+btn.dataset.scid, +btn.dataset.eid, btn.dataset.name, btn.dataset.file);
+    if (btn.dataset.action === "del-sc")  deleteScript(+btn.dataset.scid, eid);
+  };
 }
 
 // ── Series CRUD ───────────────────────────────────────────────────
-function openNewSeries(){editingSid=null;$('ms-name').value='';$('ms-year').value='';$('modal-series').classList.add('show')}
-function openEditSeries(id,name,year){editingSid=id;$('ms-name').value=name;$('ms-year').value=year||'';$('modal-series').classList.add('show')}
-async function saveSeries(){
-  const name=$('ms-name').value.trim();
-  if(!name){alert('Naam is verplicht');return;}
-  if(editingSid){await fetch(`/api/series/${editingSid}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,year:+$('ms-year').value||null})})}
-  else{await fetch('/api/series',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,year:+$('ms-year').value||null})})}
-  closeModal('modal-series');toast('Opgeslagen');loadSeriesTree();
+
+function openNewSeries() {
+  editingSid = null;
+  ge("ms-name").value = "";
+  ge("ms-year").value = "";
+  ge("ms-title").textContent = "Nieuwe serie";
+  openModal("modal-series");
 }
-async function deleteSeries(id,name){
-  if(!confirm(`Serie "${name}" verwijderen?`))return;
-  await fetch(`/api/series/${id}`,{method:'DELETE'});toast('Verwijderd');loadSeriesTree();
+
+function openEditSeries(id, name, year) {
+  editingSid = id;
+  ge("ms-name").value = name;
+  ge("ms-year").value = year || "";
+  ge("ms-title").textContent = "Serie bewerken";
+  openModal("modal-series");
+}
+
+async function saveSeries() {
+  var name = ge("ms-name").value.trim();
+  if (!name) { alert("Naam is verplicht"); return; }
+  var data = { name: name, year: +ge("ms-year").value || null };
+  if (editingSid) {
+    await fetch("/api/series/" + editingSid, { method: "PATCH", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+  } else {
+    await fetch("/api/series", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+  }
+  closeModal("modal-series");
+  toast("Opgeslagen");
+  loadSeriesTree();
+}
+
+async function deleteSeries(id, name) {
+  if (!confirm("Serie " + name + " verwijderen?")) return;
+  await fetch("/api/series/" + id, { method: "DELETE" });
+  toast("Verwijderd");
+  loadSeriesTree();
 }
 
 // ── Episodes CRUD ─────────────────────────────────────────────────
-async function openNewEpisode(sid){
-  editingEid=null;$('me-series-id').value=sid;$('me-episode-id').value='';
-  $('me-code').value='';$('me-title-inp').value='';$('me-fps').value='25';
-  await populateVideoSelect('');$('me-title').textContent='Nieuwe aflevering';
-  $('modal-episode').classList.add('show');
-}
-async function openEditEpisode(eid,sid){
-  editingEid=eid;$('me-series-id').value=sid;$('me-episode-id').value=eid;
-  const ep=await fetch(`/api/episodes/${eid}`).then(r=>r.json());
-  $('me-code').value=ep.code;$('me-title-inp').value=ep.title||'';$('me-fps').value=String(ep.fps);
-  await populateVideoSelect(ep.video_file||'');$('me-title').textContent='Aflevering bewerken';
-  $('modal-episode').classList.add('show');
-}
-async function populateVideoSelect(current){
-  const vids=await fetch('/api/files/videos').then(r=>r.json());
-  $('me-video').innerHTML='<option value="">— geen —</option>'+
-    vids.map(v=>`<option value="${v.name}"${v.name===current?' selected':''}>${v.name}</option>`).join('');
-}
-async function saveEpisode(){
-  const sid=$('me-series-id').value,eid=$('me-episode-id').value;
-  const data={series_id:+sid,code:$('me-code').value.trim(),title:$('me-title-inp').value.trim()||null,
-    video_file:$('me-video').value||null,fps:+$('me-fps').value};
-  if(!data.code){alert('Code is verplicht');return;}
-  if(eid){await fetch(`/api/episodes/${eid}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})}
-  else{await fetch('/api/episodes',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})}
-  closeModal('modal-episode');toast('Opgeslagen');loadSeriesTree();
-}
-let _finalizeEid = null;
-async function finalizeEpisode(eid){
-  _finalizeEid = eid;
-  // Haal scripts en voortgang op
-  const ep = await fetch(`/api/episodes/${eid}`).then(r=>r.json());
-  const scripts = ep.scripts || [];
-  const total = scripts.reduce((a,s)=>a+s.total_takes,0);
-  const done  = scripts.reduce((a,s)=>a+s.done_takes,0);
-  const missing = total - done;
 
-  let summary = `<div style="font-family:var(--mono);font-size:12px;line-height:1.8;background:var(--s1);padding:12px;border-radius:var(--r);border:1px solid var(--border)">`;
-  summary += `<div><span style="color:var(--dim)">Aflevering:</span> <strong>${ep.code}${ep.title?' – '+ep.title:''}</strong></div>`;
-  summary += `<div><span style="color:var(--dim)">Scripts:</span> ${scripts.length}</div>`;
-  summary += `<div><span style="color:var(--dim)">Inzetten opgenomen:</span> <span style="color:${missing?'var(--orange)':'var(--green)'}">${done}/${total}</span></div>`;
-  if(missing) summary += `<div style="color:var(--orange);margin-top:4px">⚠ ${missing} inzet${missing>1?'en':''} missing → krijg${missing>1?'en':'t'} stilte in de export</div>`;
-  summary += `</div>`;
-  $('mf-summary').innerHTML = summary;
-  $('mf-export-status').style.display = 'none';
-  $('mf-btns').style.display = 'flex';
-  $('modal-finalize').classList.add('show');
+async function openNewEpisode(sid) {
+  editingEid = null;
+  ge("me-series-id").value = sid;
+  ge("me-episode-id").value = "";
+  ge("me-code").value = "";
+  ge("me-title-inp").value = "";
+  ge("me-fps").value = "25";
+  ge("me-title").textContent = "Nieuwe aflevering";
+  await populateVideoSelect("");
+  openModal("modal-episode");
 }
 
-async function doFinalize(){
-  $('mf-confirm-btn').disabled = true;
-  $('mf-confirm-btn').textContent = 'Bezig…';
-
-  const res = await fetch(`/api/episodes/${_finalizeEid}/finalize`,{method:'POST'}).then(r=>r.json());
-  if(!res.ok){ alert('Fout bij afronden'); $('mf-confirm-btn').disabled=false; return; }
-
-  // Toon live export status
-  $('mf-btns').style.display = 'none';
-  $('mf-export-status').style.display = 'block';
-  pollExportStatus(_finalizeEid);
+async function openEditEpisode(eid, sid) {
+  editingEid = eid;
+  ge("me-series-id").value = sid;
+  ge("me-episode-id").value = eid;
+  var ep = await fetch("/api/episodes/" + eid).then(function(r) { return r.json(); });
+  ge("me-code").value = ep.code;
+  ge("me-title-inp").value = ep.title || "";
+  ge("me-fps").value = String(ep.fps);
+  ge("me-title").textContent = "Aflevering bewerken";
+  await populateVideoSelect(ep.video_file || "");
+  openModal("modal-episode");
 }
 
-async function pollExportStatus(eid){
-  const poll = async () => {
-    const scripts = await fetch(`/api/episodes/${eid}/export-status`).then(r=>r.json());
-    const container = $('mf-scripts-status');
-    container.innerHTML = scripts.map(s => {
-      const st = s.export_status;
-      const icon = !st ? '⏳' : st==='exporting' ? '⏳' : st==='done' ? '✓' : '✗';
-      const color = !st ? 'var(--dim)' : st==='done' ? 'var(--green)' : st.startsWith('error') ? 'var(--red)' : 'var(--orange)';
-      const label = !st ? 'Wachten…' : st==='exporting' ? 'Exporteren…' : st==='done' ? 'Klaar' : st;
-      const prog = s.total ? `${s.done}/${s.total} inzetten` : '';
-      return `<div style="display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:3px;
-                background:var(--s1);border-radius:var(--r);border:1px solid var(--border);font-family:var(--mono);font-size:11px">
-        <span style="color:${color};font-size:14px">${icon}</span>
-        <span style="flex:1">${s.name}</span>
-        <span style="color:var(--dim);font-size:10px">${prog}</span>
-        <span style="color:${color}">${label}</span>
-      </div>`;
-    }).join('');
+async function populateVideoSelect(current) {
+  var vids = await fetch("/api/files/videos").then(function(r) { return r.json(); });
+  var html = "<option value=''>geen</option>";
+  vids.forEach(function(v) {
+    html += "<option value='" + v.name + "'" + (v.name === current ? " selected" : "") + ">" + v.name + "</option>";
+  });
+  ge("me-video").innerHTML = html;
+}
 
-    const allDone = scripts.every(s => s.export_status && s.export_status !== 'exporting');
+async function saveEpisode() {
+  var sid = ge("me-series-id").value;
+  var eid = ge("me-episode-id").value;
+  var data = {
+    series_id: +sid,
+    code: ge("me-code").value.trim(),
+    title: ge("me-title-inp").value.trim() || null,
+    video_file: ge("me-video").value || null,
+    fps: +ge("me-fps").value
+  };
+  if (!data.code) { alert("Code is verplicht"); return; }
+  if (eid) {
+    await fetch("/api/episodes/" + eid, { method: "PATCH", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+  } else {
+    await fetch("/api/episodes", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
+  }
+  closeModal("modal-episode");
+  toast("Opgeslagen");
+  loadSeriesTree();
+}
+
+async function archiveEpisode(eid) {
+  if (!confirm("Aflevering archiveren?")) return;
+  await fetch("/api/episodes/" + eid + "/archive", { method: "POST" });
+  toast("Gearchiveerd");
+  loadSeriesTree();
+}
+
+async function deleteEpisode(eid, code) {
+  if (!confirm("Aflevering " + code + " verwijderen?")) return;
+  await fetch("/api/episodes/" + eid, { method: "DELETE" });
+  toast("Verwijderd");
+  loadSeriesTree();
+}
+
+// ── Finalize ──────────────────────────────────────────────────────
+
+async function openFinalize(eid) {
+  finalizeEid = eid;
+  var ep = await fetch("/api/episodes/" + eid).then(function(r) { return r.json(); });
+  var scripts = ep.scripts || [];
+  var total = 0, done = 0;
+  scripts.forEach(function(s) { total += s.total_takes; done += s.done_takes; });
+  var missing = total - done;
+  var html = "<div style='font-family:var(--mono);font-size:12px;line-height:1.8;background:var(--s1);padding:12px;border-radius:var(--r);border:1px solid var(--border)'>";
+  html += "<div><b>" + ep.code + (ep.title ? " - " + ep.title : "") + "</b></div>";
+  html += "<div>Scripts: " + scripts.length + "</div>";
+  html += "<div>Opgenomen: <span style='color:" + (missing ? "var(--orange)" : "var(--green)") + "'>" + done + "/" + total + "</span></div>";
+  if (missing) html += "<div style='color:var(--orange)'>" + missing + " inzet(ten) krijgen stilte</div>";
+  html += "</div>";
+  ge("mf-summary").innerHTML = html;
+  ge("mf-export-status").style.display = "none";
+  ge("mf-btns").innerHTML = "";
+  var cancelBtn = document.createElement("button");
+  cancelBtn.className = "btn btn-ghost";
+  cancelBtn.textContent = "Annuleren";
+  cancelBtn.onclick = function() { closeModal("modal-finalize"); };
+  var confirmBtn = document.createElement("button");
+  confirmBtn.className = "btn btn-green";
+  confirmBtn.textContent = "Afronden en exporteren";
+  confirmBtn.id = "mf-confirm-btn";
+  confirmBtn.onclick = doFinalize;
+  ge("mf-btns").appendChild(cancelBtn);
+  ge("mf-btns").appendChild(confirmBtn);
+  openModal("modal-finalize");
+}
+
+async function doFinalize() {
+  var confirmBtn = ge("mf-confirm-btn");
+  if (confirmBtn) confirmBtn.disabled = true;
+  var res = await fetch("/api/episodes/" + finalizeEid + "/finalize", { method: "POST" }).then(function(r) { return r.json(); });
+  if (!res.ok) { alert("Fout bij afronden"); return; }
+  ge("mf-btns").innerHTML = "";
+  ge("mf-export-status").style.display = "block";
+  pollExportStatus(finalizeEid);
+}
+
+async function pollExportStatus(eid) {
+  async function poll() {
+    var scripts = await fetch("/api/episodes/" + eid + "/export-status").then(function(r) { return r.json(); });
+    var container = ge("mf-scripts-status");
+    var html = "";
+    scripts.forEach(function(s) {
+      var st = s.export_status;
+      var icon = (!st || st === "exporting") ? "..." : st === "done" ? "OK" : "FOUT";
+      var color = !st ? "var(--dim)" : st === "done" ? "var(--green)" : st.indexOf("error") === 0 ? "var(--red)" : "var(--orange)";
+      var label = !st ? "Wachten" : st === "exporting" ? "Exporteren..." : st === "done" ? "Klaar" : st;
+      var prog = s.total ? (s.done + "/" + s.total) : "";
+      html += "<div style='display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:3px;background:var(--s1);border-radius:var(--r);border:1px solid var(--border);font-family:var(--mono);font-size:11px'>";
+      html += "<span style='color:" + color + "'>" + icon + "</span>";
+      html += "<span style='flex:1'>" + s.name + "</span>";
+      html += "<span style='color:var(--dim);font-size:10px'>" + prog + "</span>";
+      html += "<span style='color:" + color + "'>" + label + "</span>";
+      html += "</div>";
+    });
+    container.innerHTML = html;
+    var allDone = scripts.every(function(s) { return s.export_status && s.export_status !== "exporting"; });
     if (!allDone) {
       setTimeout(poll, 1500);
     } else {
-      // Klaar — toon sluit knop
-      $('mf-btns').innerHTML = '<button class="btn btn-green" onclick="closeModal('modal-finalize');loadSeriesTree()">Sluiten</button>';
-      $('mf-btns').style.display = 'flex';
-      toast('Aflevering afgerond & geëxporteerd');
+      var closeBtn = document.createElement("button");
+      closeBtn.className = "btn btn-green";
+      closeBtn.textContent = "Sluiten";
+      closeBtn.onclick = function() { closeModal("modal-finalize"); loadSeriesTree(); };
+      ge("mf-btns").appendChild(closeBtn);
+      ge("mf-btns").style.display = "flex";
+      toast("Afgerond en geexporteerd");
     }
-  };
+  }
   poll();
-}
-async function archiveEpisode(eid){
-  if(!confirm('Aflevering archiveren?'))return;
-  await fetch(`/api/episodes/${eid}/archive`,{method:'POST'});toast('Gearchiveerd');loadSeriesTree();
-}
-async function deleteEpisode(eid,code){
-  if(!confirm(`Aflevering ${code} verwijderen?`))return;
-  await fetch(`/api/episodes/${eid}`,{method:'DELETE'});toast('Verwijderd');loadSeriesTree();
 }
 
 // ── Scripts CRUD ──────────────────────────────────────────────────
-async function openNewScript(eid){
-  editingScId=null;$('msc-episode-id').value=eid;$('msc-script-id').value='';
-  $('msc-name').value='';
-  await populateScriptFileSelect('');$('msc-title').textContent='Script toevoegen';
-  $('modal-script').classList.add('show');
+
+async function openNewScript(eid) {
+  editingScId = null;
+  ge("msc-episode-id").value = eid;
+  ge("msc-script-id").value = "";
+  ge("msc-name").value = "";
+  ge("msc-title").textContent = "Script toevoegen";
+  await populateScriptFileSelect("");
+  openModal("modal-script");
 }
-async function openEditScript(scid,eid,name,filename){
-  editingScId=scid;$('msc-episode-id').value=eid;$('msc-script-id').value=scid;
-  $('msc-name').value=name;
-  await populateScriptFileSelect(filename);$('msc-title').textContent='Script bewerken';
-  $('modal-script').classList.add('show');
+
+async function openEditScript(scid, eid, name, filename) {
+  editingScId = scid;
+  ge("msc-episode-id").value = eid;
+  ge("msc-script-id").value = scid;
+  ge("msc-name").value = name;
+  ge("msc-title").textContent = "Script bewerken";
+  await populateScriptFileSelect(filename);
+  openModal("modal-script");
 }
-async function populateScriptFileSelect(current){
-  const files=await fetch('/api/files/scripts').then(r=>r.json());
-  $('msc-file').innerHTML='<option value="">— kies bestand —</option>'+
-    files.map(f=>`<option value="${f.name}"${f.name===current?' selected':''}>${f.name}</option>`).join('');
+
+async function populateScriptFileSelect(current) {
+  var files = await fetch("/api/files/scripts").then(function(r) { return r.json(); });
+  var html = "<option value=''>kies bestand</option>";
+  files.forEach(function(f) {
+    html += "<option value='" + f.name + "'" + (f.name === current ? " selected" : "") + ">" + f.name + "</option>";
+  });
+  ge("msc-file").innerHTML = html;
 }
-async function saveScript(){
-  const eid=$('msc-episode-id').value,scid=$('msc-script-id').value;
-  const data={episode_id:+eid,name:$('msc-name').value.trim(),filename:$('msc-file').value};
-  if(!data.name){alert('Naam is verplicht');return;}
-  if(scid){
-    await fetch(`/api/scripts/${scid}`,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:data.name})});
-  }else{
-    await fetch('/api/scripts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
+
+async function saveScript() {
+  var eid = ge("msc-episode-id").value;
+  var scid = ge("msc-script-id").value;
+  var data = { episode_id: +eid, name: ge("msc-name").value.trim(), filename: ge("msc-file").value };
+  if (!data.name) { alert("Naam is verplicht"); return; }
+  if (scid) {
+    await fetch("/api/scripts/" + scid, { method: "PATCH", headers: {"Content-Type":"application/json"}, body: JSON.stringify({ name: data.name }) });
+  } else {
+    await fetch("/api/scripts", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(data) });
   }
-  closeModal('modal-script');toast('Opgeslagen');
-  await loadEpisodeScripts(+eid);
+  closeModal("modal-script");
+  toast("Opgeslagen");
+  loadEpisodeScripts(+eid);
 }
-async function deleteScript(scid){
-  if(!confirm('Script ontkoppelen?'))return;
-  await fetch(`/api/scripts/${scid}`,{method:'DELETE'});toast('Verwijderd');loadSeriesTree();
+
+async function deleteScript(scid, eid) {
+  if (!confirm("Script ontkoppelen?")) return;
+  await fetch("/api/scripts/" + scid, { method: "DELETE" });
+  toast("Verwijderd");
+  loadEpisodeScripts(eid);
 }
 
 // ── Scripts panel ─────────────────────────────────────────────────
-async function loadScriptsPanel(){
-  const files=await fetch('/api/files/scripts').then(r=>r.json());
-  allScriptFiles=files;
-  const sel=$('edit-script-sel');
-  sel.innerHTML='<option value="">— kies scriptbestand —</option>'+
-    files.map(f=>`<option value="${f.name}">${f.name}</option>`).join('');
-  const grid=$('script-file-grid');
-  grid.innerHTML=files.map(f=>`
-    <div class="file-card">
-      <div class="fc-name">${f.name}</div>
-      <div class="fc-meta">${formatSize(f.size)}</div>
-      <div class="fc-actions">
-        <button class="btn btn-ghost btn-sm" onclick="loadScriptInEditor('${f.name}')">Bewerken</button>
-        <button class="btn btn-red btn-sm" onclick="deleteScriptFile('${f.name}')">✕</button>
-      </div>
-    </div>`).join('') || '<div class="dim" style="font-family:var(--mono);font-size:11px">Geen scripts</div>';
-}
 
-async function loadScriptForEdit(name){
-  if(!name){$('script-editor').value='';return;}
-  const res=await fetch(`/scripts/${name}`);
-  if(res.ok)$('script-editor').value=await res.text();
-}
-function loadScriptInEditor(name){$('edit-script-sel').value=name;loadScriptForEdit(name);}
-async function saveScriptEdit(){
-  const name=$('edit-script-sel').value;
-  if(!name){alert('Kies een script');return;}
-  const fd=new FormData();
-  fd.append('file',new Blob([$('script-editor').value],{type:'text/plain'}),name);
-  await fetch('/api/upload/script',{method:'POST',body:fd});
-  toast('Script opgeslagen');
-}
-async function uploadScripts(files){
-  for(const f of files){const fd=new FormData();fd.append('file',f);await fetch('/api/upload/script',{method:'POST',body:fd});}
-  toast(`${files.length} script(s) geüpload`);loadScriptsPanel();
-}
-async function deleteScriptFile(name){
-  if(!confirm(`Scriptbestand "${name}" verwijderen?`))return;
-  await fetch(`/api/files/script/${name}`,{method:'DELETE'});toast('Verwijderd');loadScriptsPanel();
-}
-
-// ── Inzetten verplaatsen ──────────────────────────────────────────
-async function loadMovePanel(){
-  const eps=await fetch('/api/series').then(async r=>{
-    const series=await r.json();
-    const all=[];
-    for(const s of series){const e=await fetch(`/api/series/${s.id}/episodes`).then(r=>r.json());
-      e.forEach(ep=>{ep._series=s.name;all.push(ep);});}
-    return all;
+async function loadScriptsPanel() {
+  var files = await fetch("/api/files/scripts").then(function(r) { return r.json(); });
+  var sel = ge("edit-script-sel");
+  sel.innerHTML = "<option value=''>kies scriptbestand</option>";
+  files.forEach(function(f) {
+    sel.innerHTML += "<option value='" + f.name + "'>" + f.name + "</option>";
   });
-  allEpisodes=eps;
-  $('move-episode').innerHTML='<option value="">— kies aflevering —</option>'+
-    eps.map(e=>`<option value="${e.id}">${e._series} · ${e.code}${e.title?' – '+e.title:''}</option>`).join('');
-}
-
-async function loadMoveEpisode(){
-  const eid=$('move-episode').value;
-  $('move-src-script').innerHTML='<option value="">— kies script —</option>';
-  $('move-takes-list').innerHTML='';
-  if(!eid)return;
-  const scripts=await fetch(`/api/episodes/${eid}/scripts`).then(r=>r.json());
-  $('move-src-script').innerHTML='<option value="">— kies script —</option>'+
-    scripts.map(s=>`<option value="${s.id}">${s.name} (${s.filename})</option>`).join('');
-}
-
-async function loadMoveTakes(){
-  const sid=$('move-src-script').value;
-  $('move-takes-list').innerHTML='';
-  if(!sid)return;
-  const res=await fetch(`/api/scripts/${sid}/takes`).then(r=>r.json());
-  if(!res.takes.length){$('move-takes-list').innerHTML='<div class="dim" style="padding:10px;font-family:var(--mono);font-size:11px">Geen inzetten</div>';return;}
-  $('move-takes-list').innerHTML=`
-    <div class="move-panel">
-      <div class="move-title">Inzetten — klik om te verplaatsen</div>
-      ${res.takes.map(t=>`
-        <div class="take-move-row">
-          <span class="tmr-idx">#${t.take_index}</span>
-          <span class="tmr-tc">${t.timecode_in}</span>
-          <span class="tmr-txt">${t.text}</span>
-          ${t.recorded_file?'<span class="tmr-status">✓</span>':''}
-          <button class="btn btn-ghost btn-sm tmr-move" onclick="openMoveTake(${t.id},'${t.timecode_in}',\`${t.text.replace(/`/g,"'").slice(0,60)}\`)">Verplaatsen →</button>
-        </div>`).join('')}
-    </div>`;
-}
-
-async function openMoveTake(takeId, tc, text){
-  $('mmt-take-id').value=takeId;
-  $('mmt-take-info').innerHTML=`<div style="color:var(--blue)">${tc}</div><div style="margin-top:4px">${text}</div>`;
-  // Laad andere scripts van dezelfde aflevering
-  const eid=$('move-episode').value;
-  const srcSid=$('move-src-script').value;
-  const scripts=await fetch(`/api/episodes/${eid}/scripts`).then(r=>r.json());
-  $('mmt-target-script').innerHTML='<option value="">— kies doelscript —</option>'+
-    scripts.filter(s=>String(s.id)!==srcSid)
-      .map(s=>`<option value="${s.id}">${s.name}</option>`).join('')+
-    '<option value="__new__">+ Nieuw script aanmaken</option>';
-  $('mmt-new-script-field').style.display='none';
-  $('mmt-target-script').onchange=()=>{
-    $('mmt-new-script-field').style.display=$('mmt-target-script').value==='__new__'?'block':'none';
+  var grid = ge("script-file-grid");
+  if (!files.length) { grid.innerHTML = "<div style='font-family:var(--mono);font-size:11px;color:var(--dim)'>Geen scripts</div>"; return; }
+  var html = "";
+  files.forEach(function(f) {
+    html += "<div class='file-card'>";
+    html += "<div class='fc-name'>" + f.name + "</div>";
+    html += "<div class='fc-meta'>" + formatSize(f.size) + "</div>";
+    html += "<div class='fc-actions'>";
+    html += "<button class='btn btn-ghost btn-sm' data-action='edit-file' data-name='" + f.name + "'>Bewerken</button>";
+    html += "<button class='btn btn-red btn-sm' data-action='del-file' data-name='" + f.name + "'>X</button>";
+    html += "</div></div>";
+  });
+  grid.innerHTML = html;
+  grid.onclick = function(ev) {
+    var btn = ev.target.closest("[data-action]");
+    if (!btn) return;
+    if (btn.dataset.action === "edit-file") loadScriptInEditor(btn.dataset.name);
+    if (btn.dataset.action === "del-file")  deleteScriptFile(btn.dataset.name);
   };
-  $('modal-move-take').classList.add('show');
 }
 
-async function doMoveTake(){
-  const tid=$('mmt-take-id').value;
-  const target=$('mmt-target-script').value;
-  if(!target){alert('Kies een doelscript');return;}
-  const body=target==='__new__'
-    ?{create_new_script:true,new_script_name:$('mmt-new-name').value||'Nieuw script'}
-    :{target_script_id:+target};
-  const res=await fetch(`/api/takes/${tid}/move`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(r=>r.json());
-  if(res.ok){closeModal('modal-move-take');toast('Inzet verplaatst');loadMoveTakes();}
-  else alert('Fout: '+(res.error||'onbekend'));
+async function loadScriptForEdit(name) {
+  if (!name) { ge("script-editor").value = ""; return; }
+  var res = await fetch("/scripts/" + name);
+  if (res.ok) ge("script-editor").value = await res.text();
 }
 
-// ── Video's panel ─────────────────────────────────────────────────
-async function loadVideosPanel(){
-  const files=await fetch('/api/files/videos').then(r=>r.json());
-  allVideos=files;
-  $('video-file-grid').innerHTML=files.map(f=>`
-    <div class="file-card">
-      <div class="fc-name">${f.name}</div>
-      <div class="fc-meta">${formatSize(f.size)}</div>
-      <div class="fc-actions">
-        <button class="btn btn-red btn-sm" onclick="deleteVideoFile('${f.name}')">✕ Verwijderen</button>
-      </div>
-    </div>`).join('') || '<div class="dim" style="font-family:var(--mono);font-size:11px">Geen video\'s</div>';
+function loadScriptInEditor(name) {
+  ge("edit-script-sel").value = name;
+  loadScriptForEdit(name);
 }
-async function uploadVideos(files){
-  for(const f of files){const fd=new FormData();fd.append('file',f);toast(`Uploaden: ${f.name}…`);await fetch('/api/upload/video',{method:'POST',body:fd});}
-  toast(`${files.length} video('s) geüpload`);loadVideosPanel();
+
+async function saveScriptEdit() {
+  var name = ge("edit-script-sel").value;
+  if (!name) { alert("Kies een script"); return; }
+  var fd = new FormData();
+  fd.append("file", new Blob([ge("script-editor").value], { type: "text/plain" }), name);
+  await fetch("/api/upload/script", { method: "POST", body: fd });
+  toast("Script opgeslagen");
 }
-async function deleteVideoFile(name){
-  if(!confirm(`Video "${name}" verwijderen?`))return;
-  await fetch(`/api/files/video/${name}`,{method:'DELETE'});toast('Verwijderd');loadVideosPanel();
+
+async function uploadScripts(files) {
+  for (var i = 0; i < files.length; i++) {
+    var fd = new FormData();
+    fd.append("file", files[i]);
+    await fetch("/api/upload/script", { method: "POST", body: fd });
+  }
+  toast(files.length + " script(s) geupload");
+  loadScriptsPanel();
+}
+
+async function deleteScriptFile(name) {
+  if (!confirm("Script " + name + " verwijderen?")) return;
+  await fetch("/api/files/script/" + name, { method: "DELETE" });
+  toast("Verwijderd");
+  loadScriptsPanel();
+}
+
+// ── Videos panel ─────────────────────────────────────────────────
+
+async function loadVideosPanel() {
+  var files = await fetch("/api/files/videos").then(function(r) { return r.json(); });
+  var grid = ge("video-file-grid");
+  if (!files.length) { grid.innerHTML = "<div style='font-family:var(--mono);font-size:11px;color:var(--dim)'>Geen videos</div>"; return; }
+  var html = "";
+  files.forEach(function(f) {
+    html += "<div class='file-card'>";
+    html += "<div class='fc-name'>" + f.name + "</div>";
+    html += "<div class='fc-meta'>" + formatSize(f.size) + "</div>";
+    html += "<div class='fc-actions'><button class='btn btn-red btn-sm' data-name='" + f.name + "'>X Verwijderen</button></div>";
+    html += "</div>";
+  });
+  grid.innerHTML = html;
+  grid.onclick = function(ev) {
+    var btn = ev.target.closest("button");
+    if (btn && btn.dataset.name) deleteVideoFile(btn.dataset.name);
+  };
+}
+
+async function uploadVideos(files) {
+  for (var i = 0; i < files.length; i++) {
+    toast("Uploaden: " + files[i].name);
+    var fd = new FormData();
+    fd.append("file", files[i]);
+    await fetch("/api/upload/video", { method: "POST", body: fd });
+  }
+  toast(files.length + " video(s) geupload");
+  loadVideosPanel();
+}
+
+async function deleteVideoFile(name) {
+  if (!confirm("Video " + name + " verwijderen?")) return;
+  await fetch("/api/files/video/" + name, { method: "DELETE" });
+  toast("Verwijderd");
+  loadVideosPanel();
+}
+
+// ── Move panel ────────────────────────────────────────────────────
+
+async function loadMovePanel() {
+  var series = await fetch("/api/series").then(function(r) { return r.json(); });
+  var eps = [];
+  for (var i = 0; i < series.length; i++) {
+    var s = series[i];
+    var se = await fetch("/api/series/" + s.id + "/episodes").then(function(r) { return r.json(); });
+    se.forEach(function(e) { e._series = s.name; eps.push(e); });
+  }
+  allEpisodesList = eps;
+  var sel = ge("move-episode");
+  sel.innerHTML = "<option value=''>kies aflevering</option>";
+  eps.forEach(function(e) {
+    sel.innerHTML += "<option value='" + e.id + "'>" + e._series + " - " + e.code + (e.title ? " - " + e.title : "") + "</option>";
+  });
+}
+
+async function loadMoveEpisode() {
+  var eid = ge("move-episode").value;
+  ge("move-src-script").innerHTML = "<option value=''>kies script</option>";
+  ge("move-takes-list").innerHTML = "";
+  if (!eid) return;
+  var scripts = await fetch("/api/episodes/" + eid + "/scripts").then(function(r) { return r.json(); });
+  scripts.forEach(function(s) {
+    ge("move-src-script").innerHTML += "<option value='" + s.id + "'>" + s.name + "</option>";
+  });
+}
+
+async function loadMoveTakes() {
+  var sid = ge("move-src-script").value;
+  var el = ge("move-takes-list");
+  el.innerHTML = "";
+  if (!sid) return;
+  var res = await fetch("/api/scripts/" + sid + "/takes").then(function(r) { return r.json(); });
+  if (!res.takes || !res.takes.length) {
+    el.innerHTML = "<div style='padding:10px;font-family:var(--mono);font-size:11px;color:var(--muted)'>Geen inzetten</div>";
+    return;
+  }
+  var html = "<div class='move-panel'><div class='move-title'>Klik op een inzet om te verplaatsen</div>";
+  res.takes.forEach(function(t) {
+    html += "<div class='take-move-row'>";
+    html += "<span class='tmr-idx'>#" + t.take_index + "</span>";
+    html += "<span class='tmr-tc'>" + t.timecode_in + "</span>";
+    html += "<span class='tmr-txt'>" + t.text.slice(0, 60) + "</span>";
+    if (t.recorded_file) html += "<span class='tmr-status'>OK</span>";
+    html += "<button class='btn btn-ghost btn-sm tmr-move' data-tid='" + t.id + "' data-tc='" + t.timecode_in + "' data-txt='" + t.text.slice(0,60).replace(/'/g, "") + "'>Verplaatsen</button>";
+    html += "</div>";
+  });
+  html += "</div>";
+  el.innerHTML = html;
+  el.querySelectorAll(".tmr-move").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      openMoveTake(+this.dataset.tid, this.dataset.tc, this.dataset.txt);
+    });
+  });
+}
+
+async function openMoveTake(takeId, tc, text) {
+  ge("mmt-take-id").value = takeId;
+  ge("mmt-take-info").innerHTML = "<div style='color:var(--blue)'>" + tc + "</div><div style='margin-top:4px'>" + text + "</div>";
+  var eid = ge("move-episode").value;
+  var srcSid = ge("move-src-script").value;
+  var scripts = await fetch("/api/episodes/" + eid + "/scripts").then(function(r) { return r.json(); });
+  var html = "<option value=''>kies doelscript</option>";
+  scripts.forEach(function(s) {
+    if (String(s.id) !== srcSid) {
+      html += "<option value='" + s.id + "'>" + s.name + "</option>";
+    }
+  });
+  html += "<option value='__new__'>+ Nieuw script aanmaken</option>";
+  ge("mmt-target-script").innerHTML = html;
+  ge("mmt-new-script-field").style.display = "none";
+  openModal("modal-move-take");
+}
+
+async function doMoveTake() {
+  var tid = ge("mmt-take-id").value;
+  var target = ge("mmt-target-script").value;
+  if (!target) { alert("Kies een doelscript"); return; }
+  var body = target === "__new__"
+    ? { create_new_script: true, new_script_name: ge("mmt-new-name").value || "Nieuw script" }
+    : { target_script_id: +target };
+  var res = await fetch("/api/takes/" + tid + "/move", { method: "POST", headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) }).then(function(r) { return r.json(); });
+  if (res.ok) { closeModal("modal-move-take"); toast("Inzet verplaatst"); loadMoveTakes(); }
+  else alert("Fout: " + (res.error || "onbekend"));
 }
 
 // ── Archief ───────────────────────────────────────────────────────
-async function loadArchive(){
-  // FIX #5/#8: gebruik dedicated archived-episodes route
-  const series=await fetch('/api/series').then(r=>r.json());
-  const list=$('archive-list');
-  const archivedEps=[];
-  for(const s of series){
-    const eps=await fetch(`/api/series/${s.id}/archived-episodes`).then(r=>r.json());
-    eps.forEach(e=>{e._series=s.name;archivedEps.push(e);});
+
+async function loadArchive() {
+  var series = await fetch("/api/series").then(function(r) { return r.json(); });
+  var list = ge("archive-list");
+  var archivedEps = [];
+  for (var i = 0; i < series.length; i++) {
+    var s = series[i];
+    var eps = await fetch("/api/series/" + s.id + "/archived-episodes").then(function(r) { return r.json(); });
+    eps.forEach(function(e) { e._series = s.name; archivedEps.push(e); });
   }
-  if(!archivedEps.length){list.innerHTML='<div style="font-family:var(--mono);font-size:11px;color:var(--dim);padding:12px">Geen gearchiveerde afleveringen</div>';return;}
-  list.innerHTML=archivedEps.map(e=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--border)">
-      <span style="font-family:var(--mono);font-size:10px;color:var(--dim)">${e._series}</span>
-      <span style="font-family:var(--mono);font-size:11px;color:var(--blue)">${e.code}</span>
-      <span style="font-size:12px;flex:1">${e.title||'—'}</span>
-      <span class="archive-badge">Gearchiveerd</span>
-      <button class="btn btn-ghost btn-sm" onclick="unarchiveEp(${e.id})">Terughalen</button>
-    </div>`).join('');
-}
-async function unarchiveEp(eid){
-  await fetch(`/api/episodes/${eid}/unarchive`,{method:'POST'});toast('Teruggezet');loadArchive();loadSeriesTree();
-}
-
-// ── Helpers ───────────────────────────────────────────────────────
-async function loadVideoFiles(){allVideos=await fetch('/api/files/videos').then(r=>r.json());}
-async function loadScriptFiles(){allScriptFiles=await fetch('/api/files/scripts').then(r=>r.json());}
-
-function setupDrop(zoneId,inputId,handler){
-  // FIX #6: query op specifiek element, niet eerste .drop-zone
-  const zone=document.getElementById(zoneId);if(!zone)return;
-  zone.ondragover=e=>{e.preventDefault();zone.classList.add('drag')};
-  zone.ondragleave=()=>zone.classList.remove('drag');
-  zone.ondrop=e=>{e.preventDefault();zone.classList.remove('drag');handler(e.dataTransfer.files)};
+  if (!archivedEps.length) {
+    list.innerHTML = "<div style='font-family:var(--mono);font-size:11px;color:var(--dim);padding:12px'>Geen gearchiveerde afleveringen</div>";
+    return;
+  }
+  var html = "";
+  archivedEps.forEach(function(e) {
+    html += "<div style='display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--border)'>";
+    html += "<span style='font-family:var(--mono);font-size:10px;color:var(--dim)'>" + e._series + "</span>";
+    html += "<span style='font-family:var(--mono);font-size:11px;color:var(--blue)'>" + e.code + "</span>";
+    html += "<span style='font-size:12px;flex:1'>" + (e.title || "-") + "</span>";
+    html += "<span class='archive-badge'>Gearchiveerd</span>";
+    html += "<button class='btn btn-ghost btn-sm' data-eid='" + e.id + "'>Terughalen</button>";
+    html += "</div>";
+  });
+  list.innerHTML = html;
+  list.querySelectorAll("button").forEach(function(btn) {
+    btn.addEventListener("click", function() { unarchiveEp(+this.dataset.eid); });
+  });
 }
 
-function formatSize(b){if(b<1024)return b+'B';if(b<1024*1024)return (b/1024).toFixed(0)+'KB';return (b/1024/1024).toFixed(1)+'MB';}
+async function unarchiveEp(eid) {
+  await fetch("/api/episodes/" + eid + "/unarchive", { method: "POST" });
+  toast("Teruggezet");
+  loadArchive();
+  loadSeriesTree();
+}
 
-function closeModal(id){$(id).classList.remove('show')}
+// ── Init ──────────────────────────────────────────────────────────
 
-let toastT;
-function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>el.classList.remove('show'),2500);}
-
-init();
+loadSeriesTree();
 </script>
 </body>
 </html>

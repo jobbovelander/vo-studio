@@ -1,52 +1,60 @@
-# VO Studio v4
+# VO Studio
 
-## Installatie op Synology DS920+
+Voice-over opname systeem voor Synology NAS.
 
+## Workflow
+
+```
+VS Code → GitHub → GitHub Actions → ghcr.io → Watchtower → NAS
+```
+
+Elke push naar `main`:
+1. GitHub Actions bouwt automatisch een nieuw Docker image
+2. Watchtower op de NAS pikt dit op binnen 5 minuten
+3. Container herstart automatisch
+
+---
+
+## Eerste keer instellen
+
+### 1. GitHub repo rechten instellen
+github.com/jobbovelander/vo-studio
+→ Settings → Actions → General
+→ Workflow permissions → Read and write permissions → Save
+
+### 2. NAS setup (eenmalig via SSH)
 ```bash
-# 1. Upload map naar NAS via File Station
-# 2. SSH naar NAS
-ssh admin@[NAS-IP]
-cd ~/vo_studio_final
-sudo bash install.sh
+cd /volume1/docker/vo_studio
+sudo bash nas_setup.sh
 ```
 
-## Structuur
+### 3. Personal Access Token aanmaken
+github.com → Settings → Developer settings
+→ Personal access tokens → Tokens (classic) → Generate new token
+→ Scope: read:packages
+→ Kopieer de token — die heb je nodig bij nas_setup.sh
 
+---
+
+## Updates uitrollen
+
+In VS Code terminal:
+```bash
+git add .
+git commit -m "Beschrijving van wijziging"
+git push
 ```
-Serie → Aflevering → Script → Inzetten → Opnames
-```
 
-## Studio
+NAS update automatisch binnen 5 minuten.
 
-- Dropdown: Serie → Aflevering → Script
-- **R** starten (3-2-1 countdown) · **S** stoppen · **X** overslaan
-- **F** vrije modus (negeert tijdcodes en auto-stop)
-- Zoekbalk: zoek door alle scripts, spring direct naar inzet
+---
 
-## Admin
-
-- Series en afleveringen aanmaken en beheren
-- Scripts koppelen aan afleveringen
-- Inzetten verplaatsen tussen scripts (scriptbestanden worden automatisch aangepast)
-- Aflevering afronden en archiveren
-- Gearchiveerde afleveringen terughalen
-
-## Per script losse WAV export
-
-Elke script heeft zijn eigen opnames en eigen export.
-Export knop rechtsboven in de studio.
-Vereist ffmpeg (zit in de Docker container).
-
-## Data
+## Data op NAS
 
 ```
 /volume1/vo_studio/
-├── vo_studio.db     ← SQLite database
-├── videos/          ← videobestanden
-├── scripts/         ← .txt scriptbestanden
-└── outputs/
-    └── [episode_id]/
-        └── [script_id]/
-            ├── take_001_00-00-02-00.webm
-            └── scriptnaam_48k_24bit.wav
+├── videos/
+├── scripts/
+├── outputs/
+└── vo_studio.db
 ```

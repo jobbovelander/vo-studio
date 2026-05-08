@@ -842,6 +842,14 @@ function closeModal() { $('modal-ov').classList.remove('show'); }
 
 // ── Microfoon ─────────────────────────────────────────────────────
 async function enumMicDevices() {
+  // Microfoon API vereist HTTPS of localhost — geeft geen fout op HTTP
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    $('mic-status').textContent = 'Microfoon vereist HTTPS';
+    $('mic-status').style.color = 'var(--orange)';
+    $('btn-mic').disabled = true;
+    $('btn-mic').title = 'Open via https:// voor microfoontoegang';
+    return;
+  }
   try {
     const tmp = await navigator.mediaDevices.getUserMedia({audio:true}).catch(()=>null);
     if (tmp) tmp.getTracks().forEach(t=>t.stop());

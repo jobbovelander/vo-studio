@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-VO Studio – database.py v4.1
+VO Studio – database.py v4.2
 SQLite schema en helper functies.
 """
 
@@ -48,12 +48,8 @@ def init_db():
             export_sample_rate  INTEGER DEFAULT 48000,
             export_bit_depth    INTEGER DEFAULT 24,
             export_channels     INTEGER DEFAULT 1,
-            export_status       TEXT DEFAULT NULL,
             created_at          TEXT DEFAULT (datetime('now'))
         );
-
-        -- Migratie: voeg export_status toe als kolom ontbreekt
-        ALTER TABLE scripts ADD COLUMN export_status TEXT DEFAULT NULL;
 
         CREATE TABLE IF NOT EXISTS takes (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -84,14 +80,15 @@ def init_db():
         CREATE INDEX IF NOT EXISTS idx_recordings_take ON recordings(take_id);
         CREATE INDEX IF NOT EXISTS idx_episodes_series ON episodes(series_id);
         """)
-        # Migratie: voeg nieuwe kolommen toe als ze nog niet bestaan
+
+        # Migraties — voeg nieuwe kolommen toe als ze nog niet bestaan
         for migration in [
             "ALTER TABLE scripts ADD COLUMN export_status TEXT DEFAULT NULL",
         ]:
             try:
                 conn.execute(migration)
             except Exception:
-                pass  # kolom bestaat al
+                pass  # kolom bestaat al, geen probleem
 
 # ── Helpers ───────────────────────────────────────────────────────
 
@@ -119,7 +116,6 @@ def get_episodes(series_id, include_archived=False):
         q += " ORDER BY code"
         return rows_to_list(conn.execute(q, (series_id,)).fetchall())
 
-# FIX #5: aparte functie voor alleen gearchiveerde episodes
 def get_archived_episodes(series_id):
     with get_db() as conn:
         return rows_to_list(conn.execute(
@@ -132,7 +128,6 @@ def get_scripts(episode_id):
             "SELECT * FROM scripts WHERE episode_id=? ORDER BY name",
             (episode_id,)).fetchall())
 
-# FIX #4: gebruik subquery om duplicate takes door meerdere recordings te voorkomen
 def get_takes(script_id):
     with get_db() as conn:
         return rows_to_list(conn.execute(
