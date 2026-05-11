@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VO Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg:#0b0c0b; --s1:#131514; --s2:#191c1a; --s3:#1f2320;
   --border:#242724; --muted:#353a36; --dim:#6b7a6e; --text:#e4ebe5;
   --green:#a8ff78; --blue:#78d4ff; --orange:#ffb347; --red:#ff4545; --purple:#c084fc;
-  --r:5px; --mono:'DM Mono',monospace; --sans:'Syne',sans-serif;
+  --r:5px; --mono:'DM Mono',monospace; --sans:'Syne',sans-serif; --read:'Atkinson Hyperlegible',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;overflow:hidden}
@@ -152,7 +152,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .t-annotations{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
 .t-ann-pill{font-family:var(--mono);font-size:10px;color:var(--orange);background:rgba(255,179,71,.08);border:1px solid rgba(255,179,71,.2);padding:1px 7px;border-radius:12px}
 
-#take-text{font-size:19px;font-weight:700;line-height:1.4;color:var(--text);margin-bottom:12px;letter-spacing:-.015em}
+#take-text{font-family:var(--read);font-size:21px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:12px;letter-spacing:.01em}
 
 #controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
 .btn{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
