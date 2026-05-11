@@ -205,10 +205,10 @@ kbd{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--
 #mic-lvl-bg{width:50px;height:3px;background:var(--s2);border-radius:2px;overflow:hidden;flex-shrink:0}
 #mic-lvl{height:100%;background:var(--green);width:0%;transition:width .05s;border-radius:2px}
 .mic-controls{display:flex;gap:5px}
-#mic-src-sel{flex:1;background:var(--s2);border:1px solid var(--border);color:var(--text);
+#mic-src-sel{flex:1;min-width:0;background:var(--s2);border:1px solid var(--border);color:var(--text);
   font-family:var(--mono);font-size:10px;padding:4px 5px;border-radius:var(--r);outline:none}
 #mic-src-sel:focus{border-color:var(--green)}
-#btn-mic{padding:4px 8px;font-size:10px;white-space:nowrap}
+#btn-mic{padding:4px 8px;font-size:10px;white-space:nowrap;flex-shrink:0}
 
 /* Export modal */
 #modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:50;display:none;align-items:center;justify-content:center}
