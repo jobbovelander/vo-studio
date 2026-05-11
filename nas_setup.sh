@@ -28,9 +28,14 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo "Stap 2: Data mappen aanmaken"
+echo "Stap 2: Docker rechten instellen"
+sudo synogroup --adduser docker "$(whoami)" 2>/dev/null || sudo usermod -aG docker "$(whoami)"
+echo "OK: $(whoami) toegevoegd aan docker-groep"
+
+echo ""
+echo "Stap 3: Data mappen aanmaken"
 mkdir -p /volume1/vo_studio/{videos,scripts,outputs}
-chmod -R 775 /volume1/vo_studio
+sudo chmod -R 775 /volume1/vo_studio
 echo "OK: /volume1/vo_studio aangemaakt"
 
 echo ""
