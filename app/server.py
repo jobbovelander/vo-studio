@@ -171,7 +171,7 @@ def get_episode(eid):
 @app.route('/api/episodes/<int:eid>', methods=['PATCH'])
 def update_episode(eid):
     data = request.json
-    allowed = ['code', 'title', 'video_file', 'fps', 'status', 'archived']
+    allowed = ['code', 'title', 'video_file', 'fps', 'status', 'archived', 'tc_offset']
     with db.get_db() as conn:
         for k, v in data.items():
             if k in allowed:

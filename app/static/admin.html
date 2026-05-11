@@ -234,6 +234,7 @@ h1{font-size:19px;font-weight:800;margin-bottom:3px}
     </div>
     <div class="field"><label>Titel (optioneel)</label><input id="me-title-inp" placeholder="Aflevering 2"></div>
     <div class="field"><label>Video bestand</label><select id="me-video"><option value="">geen</option></select></div>
+    <div class="field"><label>Begin tijdcode (optioneel)</label><input id="me-tc-offset" placeholder="02:00:00:00" style="font-family:var(--mono)"></div>
     <div class="modal-btns">
       <button class="btn btn-ghost" id="me-cancel">Annuleren</button>
       <button class="btn btn-green" id="me-save">Opslaan</button>
@@ -579,6 +580,7 @@ async function openEditEpisode(eid, sid) {
   ge("me-code").value = ep.code;
   ge("me-title-inp").value = ep.title || "";
   ge("me-fps").value = String(ep.fps);
+  ge("me-tc-offset").value = ep.tc_offset || "";
   ge("me-title").textContent = "Aflevering bewerken";
   await populateVideoSelect(ep.video_file || "");
   openModal("modal-episode");
@@ -601,7 +603,8 @@ async function saveEpisode() {
     code: ge("me-code").value.trim(),
     title: ge("me-title-inp").value.trim() || null,
     video_file: ge("me-video").value || null,
-    fps: +ge("me-fps").value
+    fps: +ge("me-fps").value,
+    tc_offset: ge("me-tc-offset").value.trim() || null
   };
   if (!data.code) { alert("Code is verplicht"); return; }
   if (eid) {

@@ -132,6 +132,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 #wave-wrap{position:absolute;bottom:0;left:0;right:0;height:50px;pointer-events:none;opacity:0;transition:opacity .3s}
 #wave-wrap.on{opacity:1}
 #wave-canvas{width:100%;height:100%}
+#play-overlay{position:absolute;inset:0;display:none;align-items:center;justify-content:center;cursor:pointer;background:rgba(0,0,0,.15)}
+#play-overlay.show{display:flex}
+.play-icon{width:52px;height:52px;border-radius:50%;background:rgba(0,0,0,.55);border:2px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:20px;color:rgba(255,255,255,.85)}
 
 /* Take panel */
 #take-panel{background:var(--s1);border-top:1px solid var(--border);padding:12px 16px;min-height:165px}
@@ -337,6 +340,7 @@ kbd{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--
         <div id="cd-num">3</div>
         <div id="cd-lbl">COUNTDOWN</div>
       </div>
+      <div id="play-overlay" onclick="toggleVideo()"><div class="play-icon">▶</div></div>
       <div id="wave-wrap"><canvas id="wave-canvas"></canvas></div>
     </div>
 
@@ -431,12 +435,28 @@ const S = {
   actx:null, analyser:null, raf:null,
   recStart:null, recTimer:null, countingDown:false,
   selectedDeviceId:null, currentTakeId:null,
+  tcOffset:0,
 };
+
+function parseTcOffset(tc, fps) {
+  if (!tc) return 0;
+  const p = tc.split(':');
+  return (parseInt(p[0])||0)*3600 + (parseInt(p[1])||0)*60 + (parseInt(p[2])||0) + (parseInt(p[3])||0)/(fps||25);
+}
+
+function toggleVideo() {
+  if (S.recording || S.countingDown) return;
+  if (video.paused) video.play();
+  else video.pause();
+}
 
 async function init() {
   await loadSeries();
   document.onkeydown = handleKey;
   video.ontimeupdate = syncTC;
+  video.onplay  = () => $('play-overlay').classList.remove('show');
+  video.onpause = () => { if (video.src && video.readyState >= 2 && !S.recording) $('play-overlay').classList.add('show'); };
+  video.onloadeddata = () => $('play-overlay').classList.add('show');
   setInterval(()=>$('tb-clock').textContent=new Date().toTimeString().slice(0,8),1000);
   await enumMicDevices();
 }
@@ -487,14 +507,18 @@ async function onEpisodeChange() {
 
   const ep = await fetch(`/api/episodes/${eid}`).then(r=>r.json());
   S.fps = ep.fps || 25;
+  S.tcOffset = parseTcOffset(ep.tc_offset, S.fps);
 
   if (ep.video_file) {
     video.src = `/api/video/${ep.video_file}`;
     video.style.display = 'block'; $('no-video').style.display='none';
     $('tc-overlay').style.display='block';
+    $('play-overlay').classList.remove('show');
   } else {
+    video.src = '';
     video.style.display='none'; $('no-video').style.display='flex';
     $('tc-overlay').style.display='none';
+    $('play-overlay').classList.remove('show');
   }
 
   const scripts = await fetch(`/api/episodes/${eid}/scripts`).then(r=>r.json());
@@ -634,7 +658,7 @@ function startRecord() {
 
   // Vrije modus: geen video-locatie, geen auto-stop
   if (!S.freeMode && video.src && video.readyState>=2) {
-    video.currentTime = t.seconds_in;
+    video.currentTime = Math.max(0, t.seconds_in - S.tcOffset);
     video.play();
   }
 
@@ -916,7 +940,7 @@ function startMicMeter() {
 
 // ── TC sync ───────────────────────────────────────────────────────
 function syncTC() {
-  const t=video.currentTime, fps=S.fps;
+  const t=video.currentTime + S.tcOffset, fps=S.fps;
   const h=String(Math.floor(t/3600)).padStart(2,'0');
   const m=String(Math.floor((t%3600)/60)).padStart(2,'0');
   const s=String(Math.floor(t%60)).padStart(2,'0');

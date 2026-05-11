@@ -84,6 +84,7 @@ def init_db():
         # Migraties — voeg nieuwe kolommen toe als ze nog niet bestaan
         for migration in [
             "ALTER TABLE scripts ADD COLUMN export_status TEXT DEFAULT NULL",
+            "ALTER TABLE episodes ADD COLUMN tc_offset TEXT DEFAULT NULL",
         ]:
             try:
                 conn.execute(migration)
