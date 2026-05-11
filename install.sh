@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 # ═══════════════════════════════════════════════════════════════
 #  VO Studio – Automatische installatie voor Synology DS920+
-#  Versie 1.1 (bugfixed)
+#  Versie 1.2
 # ═══════════════════════════════════════════════════════════════
 
-# FIX #1: pipefail maskeert docker build exit code → aparte variabele
-# FIX #2: set -e + ((i++)) → gebruik i=$((i+1))
+# Noot: compose draait de app op hostpoort 5080 (containerpoort 5000).
 set -euo pipefail
 
 # ── Kleuren ──────────────────────────────────────────────────────
@@ -17,7 +16,7 @@ APP_NAME="vo-studio"
 APP_DIR="/volume1/docker/vo_studio"
 DATA_DIR="/volume1/vo_studio"
 HTTPS_PORT=5443
-HTTP_PORT=5000
+HTTP_PORT=5080
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # ── Functies ─────────────────────────────────────────────────────
@@ -166,31 +165,30 @@ check_ports() {
   fi
 }
 
-# ── Docker image bouwen en starten ───────────────────────────────
+# ── Docker image updaten en starten ───────────────────────────────
 build_and_start() {
-  step "Docker container bouwen (dit duurt 2–5 minuten…)"
+  step "Docker image ophalen en container (her)starten"
 
   cd "$APP_DIR"
 
   $COMPOSE_CMD down 2>/dev/null || true
 
-  # FIX #1: schrijf build output naar tmp log, check exit code apart
-  local build_log
-  build_log=$(mktemp)
-  if $COMPOSE_CMD build --no-cache >"$build_log" 2>&1; then
-    ok "Docker image gebouwd"
+  local pull_log
+  pull_log=$(mktemp)
+  if $COMPOSE_CMD pull vo-studio >"$pull_log" 2>&1; then
+    ok "Docker image opgehaald"
   else
     echo ""
-    cat "$build_log"
-    rm -f "$build_log"
-    die "Docker build mislukt. Zie output hierboven."
+    cat "$pull_log"
+    rm -f "$pull_log"
+    die "Docker pull mislukt. Controleer netwerk of GHCR-login."
   fi
-  rm -f "$build_log"
+  rm -f "$pull_log"
 
   local start_log
   start_log=$(mktemp)
-  if $COMPOSE_CMD up -d >"$start_log" 2>&1; then
-    ok "Container gestart"
+  if $COMPOSE_CMD up -d --force-recreate vo-studio >"$start_log" 2>&1; then
+    ok "Container gestart (force-recreate)"
   else
     cat "$start_log"
     rm -f "$start_log"
@@ -198,7 +196,6 @@ build_and_start() {
   fi
   rm -f "$start_log"
 
-  # FIX #2: gebruik i=$((i+1)) in plaats van ((i++)) vanwege set -e
   info "Wachten tot app reageert…"
   local i=0
   while [[ $i -lt 30 ]]; do

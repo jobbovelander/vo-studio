@@ -47,6 +47,13 @@ git push
 
 NAS update automatisch binnen 5 minuten.
 
+Direct forceren op NAS (zonder op Watchtower te wachten):
+```bash
+cd /volume1/docker/vo_studio
+docker compose pull vo-studio
+docker compose up -d --force-recreate vo-studio
+```
+
 ---
 
 ## Data op NAS

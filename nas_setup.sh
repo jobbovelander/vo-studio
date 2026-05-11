@@ -36,8 +36,9 @@ echo "OK: /volume1/vo_studio aangemaakt"
 echo ""
 echo "Stap 3: Watchtower en VO Studio starten"
 cd "$(dirname "$0")"
-docker compose pull
-docker compose up -d
+docker compose pull vo-studio
+docker compose up -d --force-recreate vo-studio
+docker compose up -d watchtower
 
 echo ""
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
