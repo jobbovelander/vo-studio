@@ -13,7 +13,11 @@ import database as db
 from parser import (parse_script, tc_to_seconds, seconds_to_tc,
                     insert_take_into_text, remove_take_from_text)
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+# Gebruik live app-map van NAS als die beschikbaar is (directe sync), anders ingebakken
+_app_live = Path(os.environ.get('VO_APP_DIR', ''))
+_static   = str(_app_live / 'static') if _app_live.exists() else 'static'
+
+app = Flask(__name__, static_folder=_static, static_url_path='')
 app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024 * 1024
 
 BASE_DIR    = Path(__file__).parent

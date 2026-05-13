@@ -7,8 +7,10 @@ services:
       - "5080:5000"
     volumes:
       - /volume1/vo_studio:/data
+      - /volume1/docker/vo_studio/app:/app_live
     environment:
       - VO_DATA_DIR=/data
+      - VO_APP_DIR=/app_live
 
   watchtower:
     image: containrrr/watchtower
