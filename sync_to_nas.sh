@@ -20,13 +20,16 @@ rsync -avz --progress \
   --exclude=".DS_Store" \
   app/ "$NAS_USER@$NAS:$NAS_PATH/app/"
 
-# Sync docker-compose.yml
-rsync -avz docker-compose.yml "$NAS_USER@$NAS:$NAS_PATH/docker-compose.yml"
+# Sync configuratie
+rsync -avz docker-compose.yml Dockerfile requirements.txt "$NAS_USER@$NAS:$NAS_PATH/"
 
 echo ""
-echo "Sync klaar. HTML/CSS/JS wijzigingen zijn direct actief."
-echo "Voor Python-wijzigingen: container herstarten."
+echo "Sync klaar."
 echo ""
-echo "Herstarten (alleen nodig na server.py / database.py wijzigingen):"
+echo "HTML/CSS/JS: direct actief (geen herstart nodig)"
+echo "Python (server.py/database.py): herstart container:"
 echo "  ssh $NAS_USER@$NAS 'cd $NAS_PATH && docker compose restart vo-studio'"
+echo ""
+echo "Na requirements.txt wijziging: image opnieuw bouwen:"
+echo "  ssh $NAS_USER@$NAS 'cd $NAS_PATH && docker compose build && docker compose up -d --force-recreate vo-studio'"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
