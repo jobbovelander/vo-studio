@@ -205,13 +205,14 @@ kbd{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--
 #mic-panel{padding:9px 12px;border-top:1px solid var(--border)}
 .mic-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
 #mic-status{font-family:var(--mono);font-size:9px;color:var(--dim);flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#mic-lvl-bg{width:50px;height:3px;background:var(--s2);border-radius:2px;overflow:hidden;flex-shrink:0}
+#mic-lvl-bg{width:40px;height:3px;background:var(--s2);border-radius:2px;overflow:hidden;flex-shrink:0}
 #mic-lvl{height:100%;background:var(--green);width:0%;transition:width .05s;border-radius:2px}
-.mic-controls{display:flex;gap:5px}
-#mic-src-sel{flex:1;min-width:0;background:var(--s2);border:1px solid var(--border);color:var(--text);
+#btn-mic{padding:3px 9px;font-size:12px;white-space:nowrap;flex-shrink:0;background:transparent;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;color:var(--dim);transition:all .12s}
+#btn-mic:hover{border-color:var(--green);color:var(--green)}
+#btn-mic.active{border-color:var(--green);color:var(--green)}
+#mic-src-sel{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);
   font-family:var(--mono);font-size:10px;padding:4px 5px;border-radius:var(--r);outline:none}
 #mic-src-sel:focus{border-color:var(--green)}
-#btn-mic{padding:4px 8px;font-size:10px;white-space:nowrap;flex-shrink:0}
 
 /* Export modal */
 #modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:50;display:none;align-items:center;justify-content:center}
@@ -391,13 +392,11 @@ kbd{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--
       <div class="mic-row">
         <span id="mic-status">Microfoon inactief</span>
         <div id="mic-lvl-bg"><div id="mic-lvl"></div></div>
+        <button id="btn-mic" onclick="initMic()" title="Microfoon activeren">🎙</button>
       </div>
-      <div class="mic-controls">
-        <select id="mic-src-sel" onchange="changeMicSource(this.value)">
-          <option value="">— kies microfoon —</option>
-        </select>
-        <button class="btn btn-ghost" id="btn-mic" onclick="initMic()">🎙</button>
-      </div>
+      <select id="mic-src-sel" onchange="changeMicSource(this.value)">
+        <option value="">— kies microfoon —</option>
+      </select>
     </div>
   </div>
 </div>
@@ -900,7 +899,7 @@ async function initMic() {
     S.stream = await navigator.mediaDevices.getUserMedia(constraints);
     const label = S.stream.getAudioTracks()[0]?.label||'Microfoon';
     $('mic-status').textContent=label; $('mic-status').style.color='var(--green)';
-    $('btn-mic').textContent='✓';
+    $('btn-mic').textContent='🎙'; $('btn-mic').classList.add('active');
     if (S.idx>=0) $('btn-go').disabled=false;
     startMicMeter();
   } catch(e) {
