@@ -15,7 +15,8 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;overflow:hidden}
 
-#app{display:grid;grid-template-rows:46px 1fr;grid-template-columns:52px 280px 1fr 300px;height:100vh}
+#app{display:grid;grid-template-rows:46px 1fr;grid-template-columns:52px 280px 1fr 300px;height:100vh;overflow:hidden}
+#app>*{min-width:0;overflow:hidden}
 
 /* Icon rail */
 #icon-rail{grid-row:1/-1;background:var(--s1);border-right:1px solid var(--border);
@@ -152,6 +153,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--s
 .t-annotations{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:6px}
 .t-ann-pill{font-family:var(--mono);font-size:10px;color:var(--orange);background:rgba(255,179,71,.08);border:1px solid rgba(255,179,71,.2);padding:1px 7px;border-radius:12px}
 
+#take-wave{width:100%;height:48px;border-radius:var(--r);background:var(--s2);margin-bottom:10px;display:none}
+#take-wave.show{display:block}
 #take-text{font-family:var(--read);font-size:21px;font-weight:700;line-height:1.5;color:var(--text);margin-bottom:12px;letter-spacing:.01em}
 
 #controls{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
@@ -361,11 +364,13 @@ kbd{display:inline-block;font-family:var(--mono);font-size:9px;background:var(--
           <span class="t-free-badge" id="t-free-badge">VRIJ</span>
         </div>
         <div class="t-annotations" id="t-anns" style="display:none"></div>
+        <canvas id="take-wave"></canvas>
         <div id="take-text">—</div>
         <div id="controls">
           <button class="btn btn-go" id="btn-go" disabled>▶ Start <kbd>R</kbd></button>
           <button class="btn btn-free" id="btn-free" onclick="toggleFreeMode()" title="Vrije modus — negeert tijdcodes">Vrij <kbd>F</kbd></button>
           <button class="btn btn-stop" id="btn-stop" style="display:none">⏹ Stop <kbd>S</kbd></button>
+          <button class="btn btn-ghost" id="btn-playback" style="display:none" onclick="playbackTake()">▶ Terugluisteren</button>
           <div id="rec-ind"><div class="rdot"></div>REC</div>
           <div id="prog-wrap">
             <div id="prog-bg"><div id="prog-bar"></div></div>
@@ -434,7 +439,7 @@ const S = {
   actx:null, analyser:null, raf:null,
   recStart:null, recTimer:null, countingDown:false,
   selectedDeviceId:null, currentTakeId:null,
-  tcOffset:0,
+  tcOffset:0, playbackAudio:null,
 };
 
 function parseTcOffset(tc, fps) {
@@ -615,6 +620,9 @@ function selectTake(i) {
 
   $('take-text').textContent = t.text;
   $('btn-go').disabled = !S.stream;
+  $('btn-playback').style.display = t.recorded_file ? '' : 'none';
+  $('btn-playback').textContent = '▶ Terugluisteren';
+  if (S.playbackAudio) { S.playbackAudio.pause(); S.playbackAudio = null; }
 }
 
 // ── Vrije modus ───────────────────────────────────────────────────
@@ -671,8 +679,10 @@ function startRecord() {
   S.recording = true; S.recStart = Date.now();
 
   $('btn-go').style.display='none'; $('btn-stop').style.display='';
+  $('btn-playback').style.display='none';
   $('rec-ind').style.display='flex'; $('prog-wrap').style.display='flex';
   $('wave-wrap').classList.add('on');
+  $('take-wave').classList.add('show');
 
   // Auto-stop alleen als NIET in vrije modus en er een duration is
   const dur = !S.freeMode && t.duration;
@@ -692,6 +702,30 @@ function startRecord() {
   }
 }
 
+function playbackTake() {
+  if (S.playbackAudio) {
+    S.playbackAudio.pause(); S.playbackAudio = null;
+    video.pause();
+    $('btn-playback').textContent = '▶ Terugluisteren';
+    return;
+  }
+  const t = S.takes[S.idx];
+  if (!t || !t.recorded_file) return;
+  if (video.src && video.readyState >= 2) {
+    video.currentTime = Math.max(0, t.seconds_in - S.tcOffset);
+    video.play();
+  }
+  const audio = new Audio(`/api/takes/${t.id}/recording`);
+  S.playbackAudio = audio;
+  audio.play();
+  audio.onended = () => {
+    video.pause();
+    S.playbackAudio = null;
+    $('btn-playback').textContent = '▶ Terugluisteren';
+  };
+  $('btn-playback').textContent = '⏹ Stop';
+}
+
 function stopRecord() {
   if (!S.recording) return;
   S.recording = false;
@@ -700,6 +734,7 @@ function stopRecord() {
   $('btn-go').disabled=false;
   $('rec-ind').style.display='none'; $('prog-wrap').style.display='none';
   $('prog-bar').style.width='0%'; $('wave-wrap').classList.remove('on');
+  $('take-wave').classList.remove('show');
 }
 
 async function saveRecording(take) {
@@ -715,6 +750,7 @@ async function saveRecording(take) {
     document.querySelectorAll('.take-item')[S.idx]?.classList.add('active');
     addLogEntry(take, blob);
     updateProgress(); updateExportBtn();
+    $('btn-playback').style.display = '';
     setTimeout(()=>selectTake(S.idx+1), 350);
   }
 }
@@ -915,6 +951,21 @@ function startMicMeter() {
   const timeBuf=new Float32Array(S.analyser.fftSize);
   const freqBuf=new Uint8Array(S.analyser.frequencyBinCount);
   const canvas=$('wave-canvas'); const ctx=canvas.getContext('2d');
+  const twCanvas=$('take-wave'); const twCtx=twCanvas.getContext('2d');
+  function drawWave(c, cx, alpha) {
+    const W=c.width=c.offsetWidth, H=c.height=c.offsetHeight;
+    cx.clearRect(0,0,W,H);
+    const grad=cx.createLinearGradient(0,0,W,0);
+    grad.addColorStop(0,`rgba(168,255,120,0)`);
+    grad.addColorStop(.05,`rgba(168,255,120,${alpha})`);
+    grad.addColorStop(.95,`rgba(168,255,120,${alpha})`);
+    grad.addColorStop(1,`rgba(168,255,120,0)`);
+    cx.strokeStyle=grad; cx.lineWidth=1.5; cx.beginPath();
+    timeBuf.forEach((v,i)=>{const x=i*(W/timeBuf.length),y=((v+1)/2)*H;
+      i===0?cx.moveTo(x,y):cx.lineTo(x,y);}); cx.stroke();
+    const rms=Math.sqrt(timeBuf.reduce((a,b)=>a+b*b,0)/timeBuf.length);
+    cx.fillStyle=`rgba(168,255,120,${rms*.3})`; cx.fillRect(0,H-2,W,2);
+  }
   function draw() {
     S.raf=requestAnimationFrame(draw);
     S.analyser.getByteFrequencyData(freqBuf);
@@ -922,16 +973,8 @@ function startMicMeter() {
     $('mic-lvl').style.width=Math.min(100,avg*2.2)+'%';
     if (S.recording) {
       S.analyser.getFloatTimeDomainData(timeBuf);
-      const W=canvas.width=canvas.offsetWidth, H=canvas.height=canvas.offsetHeight;
-      ctx.clearRect(0,0,W,H);
-      const grad=ctx.createLinearGradient(0,0,W,0);
-      grad.addColorStop(0,'rgba(168,255,120,0)'); grad.addColorStop(.1,'rgba(168,255,120,.8)');
-      grad.addColorStop(.9,'rgba(168,255,120,.8)'); grad.addColorStop(1,'rgba(168,255,120,0)');
-      ctx.strokeStyle=grad; ctx.lineWidth=1.5; ctx.beginPath();
-      timeBuf.forEach((v,i)=>{const x=i*(W/timeBuf.length),y=((v+1)/2)*H;
-        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}); ctx.stroke();
-      const rms=Math.sqrt(timeBuf.reduce((a,b)=>a+b*b,0)/timeBuf.length);
-      ctx.fillStyle=`rgba(168,255,120,${rms*.4})`; ctx.fillRect(0,H-2,W,2);
+      drawWave(canvas, ctx, .8);
+      drawWave(twCanvas, twCtx, .9);
     }
   }
   draw();
